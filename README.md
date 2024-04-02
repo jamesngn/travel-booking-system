@@ -1,4 +1,4 @@
-# MyWebApp
+# Travel Booking System
 A simple web application that uses Docker and Docker Compose. Checkout [Intro to Docker - Part 2 (Networking, Docker Compose)](https://youtu.be/_m9JYAvFB8s) and [Docker in IntelliJ IDEA](https://youtu.be/ck6xQqSOlpw) videos that goes with it!
 
 Instructions to get the application up and running:
