@@ -1,5 +1,9 @@
 package jamesngnm.travelbookingsystem.service.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
 import jamesngnm.travelbookingsystem.dao.FlightDAO;
 import jamesngnm.travelbookingsystem.entity.Flight;
 import jamesngnm.travelbookingsystem.interfaces.GenericDAO;
@@ -10,40 +14,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlightServiceImpl implements FlightService {
-    private final GenericDAO<Flight> flightDAO;
+    private EntityManagerFactory emf;
 
     public FlightServiceImpl() {
-        this.flightDAO = new FlightDAO();
+        this.emf = Persistence.createEntityManagerFactory("travel-booking-system");
     }
 
     @Override
-    public Flight createFlight(Flight flight) {
-        return flightDAO.create(flight);
+    public void createFlight(Flight flight) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            em.persist(flight);
+            System.out.println("Added flight: " + flight.toString());
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            // Handle exception
+        } finally {
+            em.close();
+        }
+
     }
 
     @Override
     public List<Flight> searchFlights(String origin, String destination, LocalDateTime departureTime) {
-        List<Flight> allFlights = flightDAO.readAll();
-        List<Flight> availableFlights = new ArrayList<>();
-
-        for (Flight flight: allFlights) {
-            if (flight.getOrigin().equalsIgnoreCase(origin)
-                    && flight.getDestination().equalsIgnoreCase(destination)
-                    && flight.getDepartureTime().isEqual(departureTime)
-                    && flight.getAvailableSeats() > 0) {
-                availableFlights.add(flight);
-            }
-        }
-
-        return availableFlights;
+        return null;
     }
 
     @Override
     public List<Flight> getFlightsByIds(List<Long> flightIds) {
-        List<Flight> flights = new ArrayList<>();
-        for (Long id: flightIds) {
-            flights.add(flightDAO.read(id));
-        }
-        return flights;
+        return null;
+    }
+
+    public void close() {
+        emf.close();
     }
 }

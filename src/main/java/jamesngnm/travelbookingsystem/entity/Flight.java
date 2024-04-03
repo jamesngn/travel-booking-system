@@ -1,25 +1,25 @@
 package jamesngnm.travelbookingsystem.entity;
 
 import jakarta.persistence.*;
-import jamesngnm.travelbookingsystem.model.enums.FlightStatus;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "flights")
-public class Flight extends TravelComponent {
+public class Flight  {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(nullable = false)
     private String origin;
-    @Column
+    @Column(nullable = false)
     private String destination;
-    @Column(name= "departure_time")
+    @Column(nullable = false)
     private LocalDateTime departureTime;
-    @Column(name = "available_seats")
+    @Column(nullable = false)
     private int availableSeats;
-    @Enumerated(EnumType.STRING)
-    private FlightStatus status;
+    @Column(nullable = false)
+    private Double price;
 
     public Flight() {
     }
@@ -29,11 +29,9 @@ public class Flight extends TravelComponent {
         this.destination = destination;
         this.departureTime = departureTime;
         this.availableSeats = availableSeats;
-        this.setPrice(price);
+        this.price = price;
     }
 
-
-    @Override
     public boolean isAvailable(String location, LocalDateTime startDate, LocalDateTime endDate) {
         return false;
     }
@@ -77,12 +75,11 @@ public class Flight extends TravelComponent {
         this.availableSeats = availableSeats;
     }
 
-    public FlightStatus getStatus() {
-        return status;
+    public Double getPrice() {
+        return price;
     }
-
-    public void setStatus(FlightStatus status) {
-        this.status = status;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
 }

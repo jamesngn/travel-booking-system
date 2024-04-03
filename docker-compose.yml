@@ -5,9 +5,9 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_DATABASE=travelBookingDB
+      - MYSQL_DATABASE=TravelBookingDB
+      - MYSQL_ROOT_PASSWORD=secret
       - MYSQL_ALLOW_EMPTY_PASSWORD=1
-
   app:
     build: .
     ports:
