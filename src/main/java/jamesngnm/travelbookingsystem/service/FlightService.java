@@ -1,16 +1,17 @@
 package jamesngnm.travelbookingsystem.service;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jamesngnm.travelbookingsystem.entity.Flight;
+import jamesngnm.travelbookingsystem.entity.FlightEntity;
+import jamesngnm.travelbookingsystem.model.request.CreateFlightRequest;
+import jamesngnm.travelbookingsystem.model.request.SearchFlightRequest;
+import jamesngnm.travelbookingsystem.model.response.CreateFlightResponse;
+import jamesngnm.travelbookingsystem.model.response.SearchFlightResponse;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface FlightService {
-    void createFlight(HttpServletRequest request, HttpServletResponse response) throws IOException;
-    List<Flight> searchFlights(String origin, String destination, LocalDateTime departureTime);
-    List<Flight> getFlightsByIds(List<Long> flightIds);
+    CreateFlightResponse createFlight(CreateFlightRequest createFlightRequest);
+    List<SearchFlightResponse> searchFlights(SearchFlightRequest searchFlightRequest);
+    List<FlightEntity> getFlightsByIds(List<Long> flightIds);
 
 }

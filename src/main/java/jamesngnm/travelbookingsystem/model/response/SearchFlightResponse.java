@@ -1,33 +1,20 @@
-package jamesngnm.travelbookingsystem.entity;
-
-import jakarta.persistence.*;
+package jamesngnm.travelbookingsystem.model.response;
 
 import java.time.LocalDateTime;
 
-
-//TO DO: extends from TravelComponent and see if it will create the table automatically or not
-
-@Entity
-@Table(name = "flights")
-public class Flight  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class SearchFlightResponse {
     private Long id;
-    @Column(nullable = false)
     private String origin;
-    @Column(nullable = false)
     private String destination;
-    @Column(nullable = false)
     private LocalDateTime departureTime;
-    @Column(nullable = false)
-    private int availableSeats;
-    @Column(nullable = false)
+    private Integer availableSeats;
     private Double price;
 
-    public Flight() {
+    public SearchFlightResponse() {
     }
 
-    public Flight(String origin, String destination, LocalDateTime departureTime, int availableSeats, double price) {
+    public SearchFlightResponse(Long id, String origin, String destination, LocalDateTime departureTime, Integer availableSeats, Double price) {
+        this.id = id;
         this.origin = origin;
         this.destination = destination;
         this.departureTime = departureTime;
@@ -35,21 +22,13 @@ public class Flight  {
         this.price = price;
     }
 
-    public boolean isAvailable(String location, LocalDateTime startDate, LocalDateTime endDate) {
-        return false;
-    }
-
-    //Getters and Setters
     public Long getId() {
         return id;
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
+
     public String getOrigin() {
         return origin;
     }
-
     public void setOrigin(String origin) {
         this.origin = origin;
     }
@@ -57,7 +36,6 @@ public class Flight  {
     public String getDestination() {
         return destination;
     }
-
     public void setDestination(String destination) {
         this.destination = destination;
     }
@@ -65,16 +43,14 @@ public class Flight  {
     public LocalDateTime getDepartureTime() {
         return departureTime;
     }
-
     public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
 
-    public int getAvailableSeats() {
+    public Integer getAvailableSeats() {
         return availableSeats;
     }
-
-    public void setAvailableSeats(int availableSeats) {
+    public void setAvailableSeats(Integer availableSeats) {
         this.availableSeats = availableSeats;
     }
 
@@ -84,5 +60,4 @@ public class Flight  {
     public void setPrice(Double price) {
         this.price = price;
     }
-
 }

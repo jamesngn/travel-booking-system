@@ -8,6 +8,8 @@ services:
       - MYSQL_DATABASE=TravelBookingDB
       - MYSQL_ROOT_PASSWORD=secret
       - MYSQL_ALLOW_EMPTY_PASSWORD=1
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
   app:
     build: .
     ports:

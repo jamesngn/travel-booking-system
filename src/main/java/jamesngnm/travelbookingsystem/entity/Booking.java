@@ -4,11 +4,11 @@ import java.util.List;
 
 public class Booking {
     private Customer customer;
-    private List<Flight> flights;
+    private List<FlightEntity> flights;
     private Hotel hotel;
     private double totalCost;
 
-    public boolean makeBooking(Customer customer, List<Flight> flights, Hotel hotel) {
+    public boolean makeBooking(Customer customer, List<FlightEntity> flights, Hotel hotel) {
         this.customer = customer;
         this.flights = flights;
         this.hotel = hotel;
@@ -16,7 +16,7 @@ public class Booking {
         boolean seatsAvailable = true;
         boolean roomAvailable = hotel.isAvailable(hotel.getLocation(), flights.get(0).getDepartureTime(), flights.get(flights.size() - 1).getDepartureTime());
 
-        for (Flight flight : flights) {
+        for (FlightEntity flight : flights) {
             if (!flight.isAvailable(flight.getDestination(), flight.getDepartureTime(), flight.getDepartureTime())) {
                 seatsAvailable = false;
                 break;
@@ -35,7 +35,7 @@ public class Booking {
 
     private void calculateTotalCost() {
         double flightCost = 0;
-        for (Flight flight : flights) {
+        for (FlightEntity flight : flights) {
             flightCost += flight.getPrice();
         }
         totalCost = flightCost + hotel.getPrice();

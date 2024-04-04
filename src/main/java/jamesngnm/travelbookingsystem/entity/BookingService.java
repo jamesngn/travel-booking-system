@@ -4,14 +4,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class BookingService {
-    private List<Flight> flights;
+    private List<FlightEntity> flights;
     private List<Hotel> hotels;
 
     public BookingService() {
         // Initialize flights and hotels
     }
 
-    public List<Flight> searchFlights(String origin, String destination, LocalDateTime departureTime) {
+    public List<FlightEntity> searchFlights(String origin, String destination, LocalDateTime departureTime) {
         // Search and return available flights
         return null;
     }
@@ -21,7 +21,7 @@ public class BookingService {
         return null;
     }
 
-    public Booking makeBooking(Customer customer, List<Flight> flights, Hotel hotel) {
+    public Booking makeBooking(Customer customer, List<FlightEntity> flights, Hotel hotel) {
         Booking booking = new Booking();
         if (booking.makeBooking(customer, flights, hotel)) {
             // Persist booking
