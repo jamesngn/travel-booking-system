@@ -8,9 +8,9 @@
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 <!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://app-db/travelBookingDB"/>-->
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/TravelBookingDB"/>
-            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.user" value="mysql"/>
 <!--            <property name="jakarta.persistence.jdbc.password" value=""/>-->
-            <property name="jakarta.persistence.jdbc.password" value="secret"/>
+            <property name="jakarta.persistence.jdbc.password" value="mysql"/>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
             <property name="hibernate.show-sql" value="true"/>
         </properties>

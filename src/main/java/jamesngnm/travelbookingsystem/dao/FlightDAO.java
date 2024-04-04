@@ -1,6 +1,8 @@
 package jamesngnm.travelbookingsystem.dao;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jamesngnm.travelbookingsystem.entity.Flight;
 import jamesngnm.travelbookingsystem.interfaces.GenericDAO;
@@ -11,25 +13,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlightDAO implements GenericDAO<Flight> {
+    private EntityManagerFactory emf;
+
+    public FlightDAO() {
+
+        this.emf = Persistence.createEntityManagerFactory("travel-booking-system");
+    }
+
     @Override
-    public Flight create(Flight flight) {
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO flights (origin, destination, departure_time, available_seats, price) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, flight.getOrigin());
-            preparedStatement.setString(2, flight.getDestination());
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(flight.getDepartureTime()));
-            preparedStatement.setInt(4, flight.getAvailableSeats());
-            preparedStatement.setDouble(5, flight.getPrice());
-            preparedStatement.executeUpdate();
-            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
-                if (resultSet.next()) {
-                    flight.setId(resultSet.getLong(1));
-                }
-            }
+    public void create(Flight flight) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            em.persist(flight);
+            System.out.println("Added flight: " + flight.toString());
+            tx.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            // Handle exception
+        } finally {
+            em.close();
         }
-        return flight;
     }
 
     @Override
@@ -67,5 +74,9 @@ public class FlightDAO implements GenericDAO<Flight> {
             e.printStackTrace();
         }
         return flights;
+    }
+
+    public void close() {
+        emf.close();
     }
 }
