@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-
-//TO DO: extends from TravelComponent and see if it will create the table automatically or not
-
 @Entity
 @Table(name = "flights")
 public class FlightEntity {
