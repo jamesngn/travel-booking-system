@@ -17,9 +17,9 @@ public class FlightEntity {
     private String origin;
     @Column(nullable = false)
     private String destination;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "departure_time")
     private LocalDateTime departureTime;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "available_seats")
     private int availableSeats;
     @Column(nullable = false)
     private Double price;

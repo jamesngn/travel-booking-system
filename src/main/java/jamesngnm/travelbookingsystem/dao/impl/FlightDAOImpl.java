@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class FlightDAOImpl implements FlightDAO {
-    private EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
     public FlightDAOImpl() {
         this.emf = Persistence.createEntityManagerFactory("travel-booking-system");

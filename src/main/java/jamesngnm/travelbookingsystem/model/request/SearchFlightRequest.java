@@ -14,10 +14,12 @@ public class SearchFlightRequest {
     public SearchFlightRequest() {
     }
 
-    public SearchFlightRequest(String origin, String destination, LocalDateTime departureTime) {
+    public SearchFlightRequest(String origin, String destination, LocalDateTime departureTime, Integer pageSize, Integer pageNumber) {
         this.origin = origin;
         this.destination = destination;
         this.departureTime = departureTime;
+        this.pageSize = pageSize;
+        this.pageNumber = pageNumber;
     }
 
     public String getOrigin() {

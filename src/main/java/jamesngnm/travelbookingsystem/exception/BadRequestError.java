@@ -19,10 +19,10 @@ public enum BadRequestError implements ResponseError {
     ;
 
 
-    private int errorCode;
-    private String message;
+    private final int errorCode;
+    private final String message;
 
-    private BadRequestError(int errorCode, String message) {
+    BadRequestError(int errorCode, String message) {
         this.errorCode = errorCode;
         this.message = message;
     }
