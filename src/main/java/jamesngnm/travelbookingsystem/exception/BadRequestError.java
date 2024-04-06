@@ -15,6 +15,8 @@ public enum BadRequestError implements ResponseError {
     FLIGHT_NOT_FOUND(108, "Flight not found"),
     FLIGHT_ALREADY_EXISTS(109, "Flight already exists"),
     SEARCH_FLIGHT_REQUEST_INVALID(110, "Search flight request is invalid"),
+    HOTEL_LOCATION_INVALID(111, "Hotel location is required"),
+    HOTEL_CHECK_IN_INVALID(112, "Hotel check-in date is required"),
 
     ;
 

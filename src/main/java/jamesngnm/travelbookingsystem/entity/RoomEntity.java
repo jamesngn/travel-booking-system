@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-@Entity
 @Table(name = "rooms")
+@Entity
 public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +26,9 @@ public class RoomEntity {
     private double price;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column(name="booked_dates")
     private List<BookedDate> bookedDates;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "hotel_id", nullable = false)
     private HotelEntity hotel;
 

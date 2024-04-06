@@ -40,21 +40,16 @@ public class FlightDAOImpl implements FlightDAO {
     }
 
     public List<FlightEntity> searchFlights(SearchFlightRequest request) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            if (request.getOrigin() != null && request.getDestination() != null && request.getDepartureTime() != null) {
-                return searchFlightsByOriginDestinationAndDepartureTime(request);
-            } else if (request.getOrigin() != null && request.getDestination() != null) {
-                return searchFlightsByOriginAndDestination(request.getOrigin(), request.getDestination(), request.getPageNumber(), request.getPageSize());
-            } else if (request.getOrigin() != null && request.getDepartureTime() != null) {
-                return searchFlightsByOriginAndDepartureTime(request.getOrigin(), request.getDepartureTime(), request.getPageNumber(), request.getPageSize());
-            } else if (request.getOrigin() != null) {
-                return searchFlightsByOriginOnly(request.getOrigin(), request.getPageNumber(), request.getPageSize());
-            } else {
-                throw new ResponseException(BadRequestError.SEARCH_FLIGHT_REQUEST_INVALID);
-            }
-        } finally {
-            em.close();
+        if (request.getOrigin() != null && request.getDestination() != null && request.getDepartureTime() != null) {
+            return searchFlightsByOriginDestinationAndDepartureTime(request);
+        } else if (request.getOrigin() != null && request.getDestination() != null) {
+            return searchFlightsByOriginAndDestination(request.getOrigin(), request.getDestination(), request.getPageNumber(), request.getPageSize());
+        } else if (request.getOrigin() != null && request.getDepartureTime() != null) {
+            return searchFlightsByOriginAndDepartureTime(request.getOrigin(), request.getDepartureTime(), request.getPageNumber(), request.getPageSize());
+        } else if (request.getOrigin() != null) {
+            return searchFlightsByOriginOnly(request.getOrigin(), request.getPageNumber(), request.getPageSize());
+        } else {
+            throw new ResponseException(BadRequestError.SEARCH_FLIGHT_REQUEST_INVALID);
         }
     }
 

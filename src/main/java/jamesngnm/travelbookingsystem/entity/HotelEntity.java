@@ -35,10 +35,10 @@ public class HotelEntity  {
     @Column(nullable = false, name = "available_rooms")
     private int availableRooms;
 
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "hotels", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoomEntity> rooms;
 
-    public HotelEntity(String location, int availableRooms, LocalDateTime checkInDate, LocalDateTime checkOutDate, int numberOfGuests) {
+    public HotelEntity(String location, int availableRooms) {
         this.location = location;
         this.availableRooms = availableRooms;
     }
