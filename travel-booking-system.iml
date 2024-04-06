@@ -10,7 +10,7 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <datasource-mapping>
-          <factory-entry name="travel-booking-system" value="0e6cde82-8582-45b2-ba51-02d00b07e46b" />
+          <factory-entry name="travel-booking-system" value="043f6073-2922-49bc-b9a0-915f03ea5844" />
         </datasource-mapping>
         <naming-strategy-map />
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
