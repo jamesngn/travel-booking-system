@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -24,7 +24,7 @@ public class FlightBookingEntity {
 
 
     @Column(name = "booking_date")
-    private LocalDate bookingDate;
+    private LocalDateTime bookingDate;
 
     @OneToMany(mappedBy = "flightBooking", cascade = CascadeType.ALL)
     private List<PassengeEntity> passengers;

@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -31,9 +32,23 @@ public class HotelBookingEntity {
 
 
     @Column(name = "check_in_date")
-    private LocalDate checkinDate;
+    private LocalDateTime checkinDate;
 
     @Column(name = "check_out_date")
-    private LocalDate checkoutDate;
+    private LocalDateTime checkoutDate;
+
+    public void setHotelById(Long hotelId) {
+        this.hotel = new HotelEntity();
+        this.hotel.setId(hotelId);
+    }
+
+    public void setRoomBookingsById(List<Long> roomIds) {
+        this.roomBookings = new ArrayList<>();
+        for (Long roomId : roomIds) {
+            RoomBookingEntity rbe = new RoomBookingEntity();
+            rbe.setRoomById(roomId);
+            this.roomBookings.add(rbe);
+        }
+    }
 
 }

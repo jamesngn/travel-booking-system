@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -25,8 +25,13 @@ public class RoomBookingEntity {
     private HotelBookingEntity hotelBooking;
 
     @Column(name = "check_in_date")
-    private LocalDate checkInDate;
+    private LocalDateTime checkInDate;
 
     @Column(name = "check_out_date")
-    private LocalDate checkOutDate;
+    private LocalDateTime checkOutDate;
+
+    public void setRoomById(Long roomId) {
+        this.room = new RoomEntity();
+        this.room.setId(roomId);
+    }
 }
