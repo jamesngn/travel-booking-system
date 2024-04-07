@@ -27,7 +27,7 @@ public class HotelBookingEntity {
     @JoinColumn(name = "booking_id")
     private BookingEntity booking;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotelBooking", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotelBooking", fetch = FetchType.LAZY)
     private List<RoomBookingEntity> roomBookings;
 
 

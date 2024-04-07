@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,4 +34,10 @@ public class RoomEntity {
     @ToString.Exclude
     private HotelEntity hotel;
 
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<BookedDate> bookedDates;
+
+    public void addBookedDate(BookedDate bookedDate) {
+        bookedDates.add(bookedDate);
+    }
 }

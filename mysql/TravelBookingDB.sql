@@ -154,6 +154,6 @@ INSERT INTO `flight_bookings` (booking_id, flight_id, booking_date) VALUES
 
 -- Insert sample passengers
 INSERT INTO `passengers` (flight_booking_id, name, email, passport_number) VALUES
-                                                                               (3, 'John Doe', 'john@example.com', 'PA1234'),
-                                                                               (3, 'Jane Smith', 'jane@example.com', 'PA5678'),
-                                                                               (4, 'Alice Johnson', 'alice@example.com', 'PA9012');
+                                                                               (1, 'John Doe', 'john@example.com', 'PA1234'),
+                                                                               (1, 'Jane Smith', 'jane@example.com', 'PA5678'),
+                                                                               (2, 'Alice Johnson', 'alice@example.com', 'PA9012');

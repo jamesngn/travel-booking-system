@@ -21,21 +21,10 @@ public class RoomBookingDAOImpl implements RoomBookingDAO {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-
-            if (room == null) {
-                throw new IllegalArgumentException("Room not found");
-            }
-
-            if (hotelBookingEntity == null) {
-                throw new IllegalArgumentException("Hotel booking not found");
-            }
-
             // Persist room booking
             RoomBookingEntity rbe = new RoomBookingEntity();
             rbe.setRoom(room);
-            rbe.setCheckInDate(null);
-            rbe.setCheckOutDate(null);
-            rbe.setHotelBooking(null);
+            rbe.setHotelBooking(hotelBookingEntity);
 
             hotelBookingEntity.addRoomBooking(rbe);
 
