@@ -6,7 +6,4 @@ import jamesngnm.travelbookingsystem.model.response.HotelBookingResponse;
 
 public interface HotelBookingService {
     HotelBookingResponse bookHotel(CreateHotelBookingRequest request);
-
-    void createRoomBooking(CreateRoomBookingRequest request);
-
 }

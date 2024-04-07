@@ -85,3 +85,8 @@ public class BookingServiceServlet extends HttpServlet {
     }
 
 }
+
+//TODO => flight booking: create flight booking, get flight booking details,
+//TODO => hotel booking: get hotel booking details
+//TODO => booking: create booking, get booking details
+

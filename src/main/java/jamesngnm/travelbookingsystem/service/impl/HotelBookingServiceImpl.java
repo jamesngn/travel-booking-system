@@ -40,11 +40,9 @@ public class HotelBookingServiceImpl implements HotelBookingService {
             RoomEntity room = roomDAO.searchRoomById(roomId);
             roomBookingDAO.createRoomBooking(room, hotelBookingEntity);
         });
+        //TODO: add logic to handle availability of room at hotel
+
         return hotelBookingMapper.toHotelBookingResponse(hotelBookingEntity);
     }
 
-    @Override
-    public void createRoomBooking(CreateRoomBookingRequest request) {
-
-    }
 }

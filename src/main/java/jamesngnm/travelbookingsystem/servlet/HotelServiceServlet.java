@@ -68,3 +68,6 @@ public class HotelServiceServlet extends HttpServlet {
         return new SearchHotelRequest(location);
     }
 }
+
+//TODO: search room by hotelId, roomId, roomType, roomPrice, roomCapacity
+//
