@@ -8,7 +8,7 @@ import jamesngnm.travelbookingsystem.entity.HotelEntity;
 import jamesngnm.travelbookingsystem.model.request.CreateHotelBookingRequest;
 
 public class HotelBookingDAOImpl implements HotelBookingDAO {
-    private EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
     public HotelBookingDAOImpl() {
         this.emf = Persistence.createEntityManagerFactory("travel-booking-system");
