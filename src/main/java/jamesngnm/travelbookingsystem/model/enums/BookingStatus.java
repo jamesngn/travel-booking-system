@@ -3,29 +3,28 @@ package jamesngnm.travelbookingsystem.model.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum RoomType {
-    SINGLE(0, "Single"),
-    DOUBLE(1, "Double"),
-    DELUXE(2, "Deluxe"),
-    SUITE(3, "Suite");
+public enum BookingStatus {
+    PENDING(0, "Pending"),
+    CONFIRMED(1, "Confirmed"),
+    CANCELLED(2, "Cancelled");
 
 
     private final Integer code;
     private final String value;
-    private static Map<Integer, RoomType> mapping;
+    private static Map<Integer, BookingStatus> mapping;
 
     static {
         intMapping();
     }
 
-    RoomType (Integer code, String value) {
+    BookingStatus (Integer code, String value) {
         this.code = code;
         this.value = value;
     }
 
     private static void intMapping() {
         mapping = new HashMap<>();
-        for (RoomType value : values()) {
+        for (BookingStatus value : values()) {
             mapping.put(value.getCode(), value);
         }
     }
