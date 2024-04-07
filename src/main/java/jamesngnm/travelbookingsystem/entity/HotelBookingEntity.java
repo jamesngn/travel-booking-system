@@ -37,18 +37,10 @@ public class HotelBookingEntity {
     @Column(name = "check_out_date")
     private LocalDateTime checkoutDate;
 
-    public void setHotelById(Long hotelId) {
-        this.hotel = new HotelEntity();
-        this.hotel.setId(hotelId);
-    }
-
-    public void setRoomBookingsById(List<Long> roomIds) {
-        this.roomBookings = new ArrayList<>();
-        for (Long roomId : roomIds) {
-            RoomBookingEntity rbe = new RoomBookingEntity();
-            rbe.setRoomById(roomId);
-            this.roomBookings.add(rbe);
+    public void addRoomBooking(RoomBookingEntity roomBooking) {
+        if (roomBookings == null) {
+            roomBookings = new ArrayList<>();
         }
+        roomBookings.add(roomBooking);
     }
-
 }

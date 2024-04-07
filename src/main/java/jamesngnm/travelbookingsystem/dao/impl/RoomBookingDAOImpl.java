@@ -16,18 +16,17 @@ public class RoomBookingDAOImpl implements RoomBookingDAO {
         this.emf = Persistence.createEntityManagerFactory("travel-booking-system");
     }
     @Override
-    public void createRoomBooking(Long roomId, Long hotelBookingId) {
+    public RoomBookingEntity createRoomBooking(RoomEntity room, HotelBookingEntity hotelBookingEntity) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            RoomEntity room = em.find(RoomEntity.class, roomId);
+
             if (room == null) {
                 throw new IllegalArgumentException("Room not found");
             }
 
-            HotelBookingEntity hotelBooking = em.find(HotelBookingEntity.class, hotelBookingId);
-            if (hotelBooking == null) {
+            if (hotelBookingEntity == null) {
                 throw new IllegalArgumentException("Hotel booking not found");
             }
 
@@ -36,10 +35,14 @@ public class RoomBookingDAOImpl implements RoomBookingDAO {
             rbe.setRoom(room);
             rbe.setCheckInDate(null);
             rbe.setCheckOutDate(null);
-            rbe.setHotelBooking(hotelBooking);
+            rbe.setHotelBooking(null);
+
+            hotelBookingEntity.addRoomBooking(rbe);
 
             em.persist(rbe);
             tx.commit();
+
+            return rbe;
         } finally {
             em.close();
         }

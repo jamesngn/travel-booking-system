@@ -22,6 +22,7 @@ public class SearchHotelResponse {
     private List<RoomEntity> rooms;
 
     public void setRooms(List<RoomEntity> rooms) {
+        // Remove the hotel from each room to avoid circular reference
         rooms.forEach(room -> {
             room.setHotel(null);
         });
