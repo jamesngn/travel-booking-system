@@ -23,4 +23,8 @@ public class RoomBookingEntity {
     @ManyToOne
     @JoinColumn(name = "hotel_booking_id")
     private HotelBookingEntity hotelBooking;
+
+    public String toString() {
+        return "RoomBookingEntity{id=" + this.id + ", room=" + this.room.getName() + ", hotelBooking=" + this.hotelBooking.getId() + "}";
+    }
 }

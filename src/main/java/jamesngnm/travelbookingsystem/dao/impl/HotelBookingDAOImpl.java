@@ -2,10 +2,16 @@ package jamesngnm.travelbookingsystem.dao.impl;
 
 import jakarta.persistence.*;
 import jamesngnm.travelbookingsystem.dao.HotelBookingDAO;
-import jamesngnm.travelbookingsystem.entity.BookingEntity;
+import jamesngnm.travelbookingsystem.dto.HotelBookingDTO;
+import jamesngnm.travelbookingsystem.dto.RoomBookingDTO;
 import jamesngnm.travelbookingsystem.entity.HotelBookingEntity;
 import jamesngnm.travelbookingsystem.entity.HotelEntity;
+import jamesngnm.travelbookingsystem.entity.RoomBookingEntity;
 import jamesngnm.travelbookingsystem.model.request.CreateHotelBookingRequest;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HotelBookingDAOImpl implements HotelBookingDAO {
     private final EntityManagerFactory emf;
@@ -23,6 +29,8 @@ public class HotelBookingDAOImpl implements HotelBookingDAO {
             if (hotel == null) {
                 throw new IllegalArgumentException("Hotel not found");
             }
+
+            //TODO: Add booking entity
 //            BookingEntity booking = em.find(BookingEntity.class, request.getBookingId());
 //            if (booking == null) {
 //                throw new IllegalArgumentException("Booking not found");
@@ -42,5 +50,69 @@ public class HotelBookingDAOImpl implements HotelBookingDAO {
         } finally {
             em.close();
         }
+    }
+
+    @Override
+    public HotelBookingEntity getHotelBookingById(Long id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            HotelBookingEntity hbe = em.find(HotelBookingEntity.class, id);
+            if (hbe == null) {
+                throw new IllegalArgumentException("Hotel booking not found");
+            }
+
+            //avoid circular reference
+            hbe.getHotel().setRooms(null);
+            hbe.getRoomBookings().forEach(roomBooking -> {
+                roomBooking.setHotelBooking(null);
+                roomBooking.getRoom().setHotel(null);
+            });
+
+            return hbe;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public HotelBookingDTO getHotelBookingByIdV2(Long id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            HotelBookingEntity hbe = em.find(HotelBookingEntity.class, id);
+            if (hbe == null) {
+                throw new IllegalArgumentException("Hotel booking not found");
+            }
+
+
+
+            HotelBookingDTO dto = getHotelBookingDTO(hbe);
+
+
+            return dto;
+        } finally {
+            em.close();
+        }
+    }
+
+    @NotNull
+    private static HotelBookingDTO getHotelBookingDTO(HotelBookingEntity hbe) {
+        HotelBookingDTO dto = new HotelBookingDTO();
+        dto.setId(hbe.getId());
+        dto.setHotelId(hbe.getHotel().getId());
+        dto.setHotelName(hbe.getHotel().getName());
+        dto.setBookingId(hbe.getBooking().getId());
+        dto.setCheckinDate(hbe.getCheckinDate());
+        dto.setCheckoutDate(hbe.getCheckoutDate());
+
+        List<RoomBookingDTO> roomBookingDTOs = new ArrayList<>();
+        for (RoomBookingEntity roomBooking : hbe.getRoomBookings()) {
+            RoomBookingDTO roomBookingDTO = new RoomBookingDTO();
+            roomBookingDTO.setId(roomBooking.getId());
+            roomBookingDTO.setRoomId(roomBooking.getRoom().getId());
+            roomBookingDTO.setRoomName(roomBooking.getRoom().getName());
+            roomBookingDTOs.add(roomBookingDTO);
+        }
+        dto.setRoomBookings(roomBookingDTOs);
+        return dto;
     }
 }

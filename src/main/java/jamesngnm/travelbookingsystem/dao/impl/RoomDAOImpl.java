@@ -23,7 +23,18 @@ public class RoomDAOImpl implements RoomDAO {
     public RoomEntity searchRoomById(Long roomId) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.find(RoomEntity.class, roomId);
+            RoomEntity room = em.find(RoomEntity.class, roomId);
+            if (room == null) {
+                throw new IllegalArgumentException("Room not found");
+            }
+
+            //avoid circular reference
+            room.getHotel().setRooms(null);
+            if (room.getBookedDates() != null) {
+                room.getBookedDates().forEach(bookedDate -> bookedDate.setRoom(null));
+            }
+
+            return room;
         } finally {
             em.close();
         }
@@ -51,7 +62,7 @@ public class RoomDAOImpl implements RoomDAO {
                     "WHERE r.id NOT IN (" +
                     "    SELECT bd.room.id FROM BookedDate bd " +
                     "    WHERE bd.checkInDate < :checkOutDate AND bd.checkOutDate > :checkInDate" +
-                    ") AND r.available = true";
+                    ")";
 
             TypedQuery<RoomEntity> query = em.createQuery(queryString, RoomEntity.class);
             query.setParameter("checkInDate", checkInDate);
@@ -59,7 +70,7 @@ public class RoomDAOImpl implements RoomDAO {
 
             List<RoomEntity> availableRooms = query.getResultList();
 
-            // Detach the hotel entity from each room to avoid lazy loading issues
+            // Detach the hotel entity from each room to avoid EAGER loading issues
             availableRooms.forEach(room -> {
                 room.setHotel(null);
                 if (room.getBookedDates() != null) {

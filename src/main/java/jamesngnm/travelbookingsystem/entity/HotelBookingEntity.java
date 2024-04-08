@@ -19,7 +19,7 @@ public class HotelBookingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id")
     private HotelEntity hotel;
 
@@ -27,7 +27,7 @@ public class HotelBookingEntity {
     @JoinColumn(name = "booking_id")
     private BookingEntity booking;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotelBooking", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotelBooking", fetch = FetchType.EAGER)
     private List<RoomBookingEntity> roomBookings;
 
 
@@ -42,5 +42,20 @@ public class HotelBookingEntity {
             roomBookings = new ArrayList<>();
         }
         roomBookings.add(roomBooking);
+    }
+
+    public void setHotel(HotelEntity hotel) {
+        this.hotel = hotel;
+        //avoid circular reference
+        hotel.setRooms(null);
+    }
+
+    @Override
+    public String toString() {
+        return "HotelBookingEntity{" +
+                "id=" + id +
+                ", checkinDate=" + checkinDate +
+                ", checkoutDate=" + checkoutDate +
+                "}";
     }
 }

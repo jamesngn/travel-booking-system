@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jamesngnm.travelbookingsystem.adapter.LocalDateAdapter;
 import jamesngnm.travelbookingsystem.adapter.LocalDateTimeAdapter;
+import jamesngnm.travelbookingsystem.dto.HotelBookingDTO;
 import jamesngnm.travelbookingsystem.entity.HotelBookingEntity;
 import jamesngnm.travelbookingsystem.model.request.CreateHotelBookingRequest;
 import jamesngnm.travelbookingsystem.model.response.HotelBookingResponse;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(urlPatterns = {"/bookings", "/bookings/hotel/create"})
+@WebServlet(urlPatterns = {"/bookings", "/bookings/hotel/create", "/bookings/hotel/23"})
 public class BookingServiceServlet extends HttpServlet {
     private HotelBookingService hotelBookingService;
     private Gson gson;
@@ -54,6 +55,28 @@ public class BookingServiceServlet extends HttpServlet {
                 response.setContentType("application/json");
                 response.getWriter().write(gson.toJson(new Response<>(e)));
             }
+        }
+    }
+
+    @Override
+    protected void doGet(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) throws ServletException, IOException {
+        String path = request.getServletPath();
+        if ("/bookings/hotel/23".equals(path)) {
+            try {
+//                Long id = Long.parseLong(request.getPathInfo().substring(1));
+                HotelBookingResponse hotelBookingResponse = hotelBookingService.getHotelBookingDetails(23L);
+
+//                HotelBookingDTO hotelBookingResponse = hotelBookingService.getHotelBookingDetailsV2(id);
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.setContentType("application/json");
+                response.getWriter().write(gson.toJson(new Response<>(hotelBookingResponse)));
+            }
+            catch (Exception e) {
+                response.setContentType("application/json");
+                response.getWriter().write(gson.toJson(new Response<>(e)));
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 

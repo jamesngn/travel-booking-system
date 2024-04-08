@@ -22,15 +22,16 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     }
 
     @Override
-    public void reserveRoom(RoomEntity room, HotelBookingEntity hotelBooking) {
+    public void reserveRoom(Long roomId, HotelBookingEntity hotelBooking) {
         // Reserve room
-        if (room == null) {
-            throw new IllegalArgumentException("Room not found");
+        if (roomId == null) {
+            throw new IllegalArgumentException("Room ID not found");
         }
-
         if (hotelBooking == null) {
             throw new IllegalArgumentException("Hotel booking not found");
         }
+
+        RoomEntity room = roomService.getRoomById(roomId);
 
         if (!Objects.equals(room.getHotel().getId(), hotelBooking.getHotel().getId())) {
             throw new IllegalArgumentException("Room does not belong to hotel");

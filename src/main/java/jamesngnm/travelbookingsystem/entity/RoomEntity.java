@@ -40,4 +40,8 @@ public class RoomEntity {
     public void addBookedDate(BookedDate bookedDate) {
         bookedDates.add(bookedDate);
     }
+
+    public String toString() {
+        return "RoomEntity{id=" + this.id + ", name='" + this.name + "', type=" + this.type + ", price=" + this.price + ", available=" + this.available + ", bookedDates=" + this.bookedDates.toString() + "}";
+    }
 }

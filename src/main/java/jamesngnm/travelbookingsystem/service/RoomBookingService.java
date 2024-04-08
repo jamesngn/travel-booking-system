@@ -5,5 +5,5 @@ import jamesngnm.travelbookingsystem.entity.RoomEntity;
 import jamesngnm.travelbookingsystem.model.request.CreateRoomBookingRequest;
 
 public interface RoomBookingService {
-    void reserveRoom(RoomEntity room, HotelBookingEntity hotelBooking);
+    void reserveRoom(Long roomId, HotelBookingEntity hotelBooking);
 }

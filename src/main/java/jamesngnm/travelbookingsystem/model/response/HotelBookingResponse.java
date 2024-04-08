@@ -1,6 +1,5 @@
 package jamesngnm.travelbookingsystem.model.response;
 
-import jamesngnm.travelbookingsystem.entity.HotelEntity;
 import jamesngnm.travelbookingsystem.entity.RoomEntity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -25,4 +24,9 @@ public class HotelBookingResponse {
         }
         this.rooms.add(room);
     }
+
+    public String toString() {
+        return "HotelBookingResponse{hotelId=" + this.hotelId + ", checkInDate=" + this.checkInDate + ", checkOutDate=" + this.checkOutDate + ", rooms=" + this.rooms.toString() + "}";
+    }
+
 }
