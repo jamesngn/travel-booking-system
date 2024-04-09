@@ -60,17 +60,20 @@ public class RoomServiceServlet extends HttpServlet {
         String checkInDate = request.getParameter("checkInDate");
         if (checkInDate != null && !checkInDate.isEmpty()) {
             searchAvailableRoomsRequest.setCheckInDate(LocalDateTime.parse(checkInDate));
+        } else {
+            throw new IllegalArgumentException("Check-in date is required");
         }
 
         String checkOutDate = request.getParameter("checkOutDate");
         if (checkOutDate != null && !checkOutDate.isEmpty()) {
             searchAvailableRoomsRequest.setCheckOutDate(LocalDateTime.parse(checkOutDate));
+        } else {
+            throw new IllegalArgumentException("Check-out date is required");
         }
 
-        assert checkInDate != null;
-        assert checkOutDate != null;
+
         if (LocalDateTime.parse(checkInDate).isAfter(LocalDateTime.parse(checkOutDate))) {
-//            throw new IllegalArgumentException("Check-in date must be before check-out date");
+            throw new IllegalArgumentException("Check-in date must be before check-out date");
         }
 
         String location = request.getParameter("location");

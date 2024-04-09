@@ -21,3 +21,4 @@ public class SearchHotelResponse {
 
     private List<SearchRoomResponse> rooms;
 }
+

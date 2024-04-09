@@ -21,7 +21,7 @@ public class BookingEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
 
     @Column(name = "booking_date")
     private LocalDateTime bookingDate;
@@ -36,3 +36,6 @@ public class BookingEntity {
     private List<HotelBookingEntity> hotelBookings;
 
 }
+
+//TODO: need user first => need to do registration, login
+//TODO: create UI on react
