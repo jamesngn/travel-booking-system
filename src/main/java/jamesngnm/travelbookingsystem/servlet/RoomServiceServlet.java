@@ -8,8 +8,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jamesngnm.travelbookingsystem.adapter.LocalDateTimeAdapter;
-import jamesngnm.travelbookingsystem.entity.RoomEntity;
-import jamesngnm.travelbookingsystem.model.enums.RoomType;
 import jamesngnm.travelbookingsystem.model.request.SearchAvailableRoomsRequest;
 import jamesngnm.travelbookingsystem.model.response.Response;
 import jamesngnm.travelbookingsystem.model.response.SearchRoomResponse;

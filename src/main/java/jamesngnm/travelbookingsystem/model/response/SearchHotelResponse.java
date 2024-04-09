@@ -1,6 +1,5 @@
 package jamesngnm.travelbookingsystem.model.response;
 
-import jamesngnm.travelbookingsystem.entity.RoomEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
