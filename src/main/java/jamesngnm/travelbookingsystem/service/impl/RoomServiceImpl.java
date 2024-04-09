@@ -4,15 +4,21 @@ import jamesngnm.travelbookingsystem.dao.RoomDAO;
 import jamesngnm.travelbookingsystem.dao.impl.RoomDAOImpl;
 import jamesngnm.travelbookingsystem.entity.BookedDate;
 import jamesngnm.travelbookingsystem.entity.RoomEntity;
+import jamesngnm.travelbookingsystem.mapper.RoomMapper;
+import jamesngnm.travelbookingsystem.model.request.SearchAvailableRoomsRequest;
+import jamesngnm.travelbookingsystem.model.response.SearchRoomResponse;
 import jamesngnm.travelbookingsystem.service.RoomService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RoomServiceImpl implements RoomService {
     private RoomDAO roomDAO;
+    private RoomMapper roomMapper;
     public RoomServiceImpl() {
         this.roomDAO = new RoomDAOImpl();
+        this.roomMapper = new RoomMapper();
     }
     @Override
     public RoomEntity getRoomById(Long id) {
@@ -56,7 +62,16 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<RoomEntity> getAvailableRooms(String checkInDate, String checkOutDate) {
+    public List<SearchRoomResponse> getAvailableRooms(SearchAvailableRoomsRequest searchAvailableRoomsRequest) {
+        List<RoomEntity> roomEntityList = roomDAO.searchAvailableRooms(searchAvailableRoomsRequest);
+
+        return roomEntityList.stream()
+                .map(roomMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SearchRoomResponse> getAvailableRooms(String checkInDate, String checkOutDate) {
         if (checkInDate == null) {
             throw new IllegalArgumentException("Check-in date is required");
         }
@@ -72,6 +87,10 @@ public class RoomServiceImpl implements RoomService {
             throw new IllegalArgumentException("Check-in date must be before check-out date");
         }
 
-        return roomDAO.searchAvailableRooms(checkInDateTime, checkOutDateTime);
+        List<RoomEntity> roomEntityList = roomDAO.searchAvailableRooms(checkInDateTime, checkOutDateTime);
+
+        return roomEntityList.stream()
+                .map(roomMapper::toResponse)
+                .collect(Collectors.toList());
     }
 }

@@ -13,8 +13,8 @@ import jamesngnm.travelbookingsystem.service.RoomService;
 import java.util.Objects;
 
 public class RoomBookingServiceImpl implements RoomBookingService {
-    private RoomBookingDAO roomBookingDAO;
-    private RoomService roomService;
+    private final RoomBookingDAO roomBookingDAO;
+    private final RoomService roomService;
 
     public RoomBookingServiceImpl() {
         this.roomService = new RoomServiceImpl();

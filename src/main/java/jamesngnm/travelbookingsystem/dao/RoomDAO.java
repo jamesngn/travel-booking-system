@@ -2,6 +2,7 @@ package jamesngnm.travelbookingsystem.dao;
 
 import jamesngnm.travelbookingsystem.entity.BookedDate;
 import jamesngnm.travelbookingsystem.entity.RoomEntity;
+import jamesngnm.travelbookingsystem.model.request.SearchAvailableRoomsRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,4 +13,6 @@ public interface RoomDAO {
     void creatBookedDate(RoomEntity room, BookedDate bookedDate);
 
     List<RoomEntity> searchAvailableRooms (LocalDateTime checkInDate, LocalDateTime checkOutDate);
+
+    List<RoomEntity> searchAvailableRooms (SearchAvailableRoomsRequest searchAvailableRoomsRequest);
 }

@@ -1,6 +1,8 @@
 package jamesngnm.travelbookingsystem.service;
 
 import jamesngnm.travelbookingsystem.entity.RoomEntity;
+import jamesngnm.travelbookingsystem.model.request.SearchAvailableRoomsRequest;
+import jamesngnm.travelbookingsystem.model.response.SearchRoomResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,5 +12,7 @@ public interface RoomService {
 
     void addRoomBookedDate(RoomEntity room, LocalDateTime checkInDate, LocalDateTime checkOutDate);
 
-    List<RoomEntity> getAvailableRooms(String checkInDate, String checkOutDate);
+    List<SearchRoomResponse> getAvailableRooms(SearchAvailableRoomsRequest searchAvailableRoomsRequest);
+
+    List<SearchRoomResponse> getAvailableRooms(String checkInDate, String checkOutDate);
 }

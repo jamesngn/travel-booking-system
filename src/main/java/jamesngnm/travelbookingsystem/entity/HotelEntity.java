@@ -1,6 +1,5 @@
 package jamesngnm.travelbookingsystem.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +24,6 @@ public class HotelEntity {
     private int availableRooms;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel", fetch = FetchType.EAGER)
-    @JsonManagedReference
     private List<RoomEntity> rooms;
 
     public boolean isAvailable(String location, String name, int availableRooms, double price) {

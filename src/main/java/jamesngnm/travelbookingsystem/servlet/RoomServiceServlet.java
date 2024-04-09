@@ -9,7 +9,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jamesngnm.travelbookingsystem.adapter.LocalDateTimeAdapter;
 import jamesngnm.travelbookingsystem.entity.RoomEntity;
+import jamesngnm.travelbookingsystem.model.enums.RoomType;
+import jamesngnm.travelbookingsystem.model.request.SearchAvailableRoomsRequest;
 import jamesngnm.travelbookingsystem.model.response.Response;
+import jamesngnm.travelbookingsystem.model.response.SearchRoomResponse;
 import jamesngnm.travelbookingsystem.service.RoomService;
 import jamesngnm.travelbookingsystem.service.impl.RoomServiceImpl;
 
@@ -35,9 +38,8 @@ public class RoomServiceServlet extends HttpServlet {
         String path = request.getServletPath();
         if ("/rooms/search-available".equals(path)) {
             try {
-                String checkInDate = request.getParameter("checkInDate");
-                String checkOutDate = request.getParameter("checkOutDate");
-                List<RoomEntity> availableRooms = roomService.getAvailableRooms(checkInDate, checkOutDate);
+                SearchAvailableRoomsRequest searchAvailableRoomsRequest = extractSearchRoomRequest(request);
+                List<SearchRoomResponse> availableRooms = roomService.getAvailableRooms(searchAvailableRoomsRequest);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.setContentType("application/json");
                 response.getWriter().write(gson.toJson(new Response<>(availableRooms)));
@@ -50,4 +52,49 @@ public class RoomServiceServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
+
+    private SearchAvailableRoomsRequest extractSearchRoomRequest(HttpServletRequest request) {
+        // Extract search room request
+        SearchAvailableRoomsRequest searchAvailableRoomsRequest = new SearchAvailableRoomsRequest();
+
+        String checkInDate = request.getParameter("checkInDate");
+        if (checkInDate != null && !checkInDate.isEmpty()) {
+            searchAvailableRoomsRequest.setCheckInDate(LocalDateTime.parse(checkInDate));
+        }
+
+        String checkOutDate = request.getParameter("checkOutDate");
+        if (checkOutDate != null && !checkOutDate.isEmpty()) {
+            searchAvailableRoomsRequest.setCheckOutDate(LocalDateTime.parse(checkOutDate));
+        }
+
+        assert checkInDate != null;
+        assert checkOutDate != null;
+        if (LocalDateTime.parse(checkInDate).isAfter(LocalDateTime.parse(checkOutDate))) {
+//            throw new IllegalArgumentException("Check-in date must be before check-out date");
+        }
+
+        String location = request.getParameter("location");
+        if (location != null && !location.isEmpty()) {
+            searchAvailableRoomsRequest.setLocation(location);
+        }
+
+        String minPrice = request.getParameter("minPrice");
+        if (minPrice != null && !minPrice.isEmpty()) {
+            searchAvailableRoomsRequest.setMinPrice(Double.parseDouble(minPrice));
+        }
+
+        String maxPrice = request.getParameter("maxPrice");
+        if (maxPrice != null && !maxPrice.isEmpty()) {
+            searchAvailableRoomsRequest.setMaxPrice(Double.parseDouble(maxPrice));
+        }
+
+        String type = request.getParameter("type");
+        if (type != null && !type.isEmpty()) {
+            searchAvailableRoomsRequest.setType(type);
+        }
+
+        return searchAvailableRoomsRequest;
+    }
+
+
 }

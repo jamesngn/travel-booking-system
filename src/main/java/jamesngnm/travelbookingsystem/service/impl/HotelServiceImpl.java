@@ -14,18 +14,18 @@ import java.util.stream.Collectors;
 public class HotelServiceImpl implements HotelService {
     private final HotelDAO hotelDAO;
 
-    private final HotelMapper mapper;
+    private final HotelMapper hotelMapper;
 
     public HotelServiceImpl() {
         this.hotelDAO = new HotelDAOImpl();
-        this.mapper = new HotelMapper();
+        this.hotelMapper = new HotelMapper();
     }
 
     @Override
     public List<SearchHotelResponse> searchHotel(SearchHotelRequest searchHotelRequest) {
         List<HotelEntity> hotels = hotelDAO.searchHotel(searchHotelRequest);
         return hotels.stream()
-                .map(mapper::toSearchHotelResponse)
+                .map(hotelMapper::toSearchHotelResponse)
                 .collect(Collectors.toList());
     }
 }

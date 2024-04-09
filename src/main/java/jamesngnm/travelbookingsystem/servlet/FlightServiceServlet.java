@@ -120,4 +120,4 @@ public class FlightServiceServlet extends HttpServlet {
 
 }
 
-//TO DO: currently flightService methods is doing what flightDAO does; and flightServiceServlet contains the function of flightDAO
+// TODO: currently flightService methods is doing what flightDAO does; and flightServiceServlet contains the function of flightDAO

@@ -31,7 +31,6 @@ public class RoomEntity {
 
     @ManyToOne
     @JoinColumn(name = "hotel_id")
-    @ToString.Exclude
     private HotelEntity hotel;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

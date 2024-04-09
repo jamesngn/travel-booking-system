@@ -63,9 +63,13 @@ public class HotelBookingDAOImpl implements HotelBookingDAO {
 
             //avoid circular reference
             hbe.getHotel().setRooms(null);
+            hbe.setBooking(null);
             hbe.getRoomBookings().forEach(roomBooking -> {
                 roomBooking.setHotelBooking(null);
                 roomBooking.getRoom().setHotel(null);
+                roomBooking.getRoom().getBookedDates().forEach(bd -> {
+                    bd.setRoom(null);
+                });
             });
 
             return hbe;
