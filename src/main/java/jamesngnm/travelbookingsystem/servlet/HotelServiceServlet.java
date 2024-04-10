@@ -21,6 +21,7 @@ import jamesngnm.travelbookingsystem.service.impl.FlightServiceImpl;
 import jamesngnm.travelbookingsystem.service.impl.HotelServiceImpl;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,6 +41,11 @@ public class HotelServiceServlet extends HttpServlet {
 
     @Override
     protected void doPost(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) throws ServletException, IOException {
+        // Add CORS headers
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
         String path = request.getServletPath();
         if ("/hotels/search".equals(path)) {
             try {
@@ -63,10 +69,19 @@ public class HotelServiceServlet extends HttpServlet {
         }
     }
 
-    private SearchHotelRequest extractSearchHotelRequest(HttpServletRequest request) {
-        String location = request.getParameter("location");
-        return new SearchHotelRequest(location);
+    private SearchHotelRequest extractSearchHotelRequest(HttpServletRequest request) throws IOException {
+    StringBuilder sb = new StringBuilder();
+    String line;
+
+    try (BufferedReader reader = request.getReader()) {
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
     }
+
+    String jsonString = sb.toString();
+    return gson.fromJson(jsonString, SearchHotelRequest.class);
+}
 }
 
 // TODO: search room by hotelId, roomId, roomType, roomPrice, roomCapacity
