@@ -5,6 +5,7 @@ import jamesngnm.travelbookingsystem.dao.impl.HotelDAOImpl;
 import jamesngnm.travelbookingsystem.entity.HotelEntity;
 import jamesngnm.travelbookingsystem.mapper.HotelMapper;
 import jamesngnm.travelbookingsystem.model.request.SearchHotelRequest;
+import jamesngnm.travelbookingsystem.model.response.HotelDetailResponse;
 import jamesngnm.travelbookingsystem.model.response.SearchHotelResponse;
 import jamesngnm.travelbookingsystem.service.HotelService;
 
@@ -27,5 +28,11 @@ public class HotelServiceImpl implements HotelService {
         return hotels.stream()
                 .map(hotelMapper::toSearchHotelResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public HotelDetailResponse getHotelDetail(Long hotelId) {
+        HotelEntity hotel = hotelDAO.getHotelDetail(hotelId);
+        return hotelMapper.toHotelDetailResponse(hotel);
     }
 }

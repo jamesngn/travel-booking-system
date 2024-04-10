@@ -32,4 +32,20 @@ public class HotelDAOImpl implements HotelDAO {
             em.close();
         }
     }
+
+    @Override
+    public HotelEntity getHotelDetail(Long hotelId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // Query database for hotel based on hotelId
+            TypedQuery<HotelEntity> query = em.createQuery("SELECT h FROM HotelEntity h WHERE h.id = :id", HotelEntity.class);
+            query.setParameter("id", hotelId);
+
+            HotelEntity hotel = query.getSingleResult();
+
+            return hotel;
+        } finally {
+            em.close();
+        }
+    }
 }

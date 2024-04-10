@@ -11,10 +11,7 @@ import jamesngnm.travelbookingsystem.adapter.LocalDateTimeAdapter;
 import jamesngnm.travelbookingsystem.model.request.CreateFlightRequest;
 import jamesngnm.travelbookingsystem.model.request.SearchFlightRequest;
 import jamesngnm.travelbookingsystem.model.request.SearchHotelRequest;
-import jamesngnm.travelbookingsystem.model.response.CreateFlightResponse;
-import jamesngnm.travelbookingsystem.model.response.Response;
-import jamesngnm.travelbookingsystem.model.response.SearchFlightResponse;
-import jamesngnm.travelbookingsystem.model.response.SearchHotelResponse;
+import jamesngnm.travelbookingsystem.model.response.*;
 import jamesngnm.travelbookingsystem.service.FlightService;
 import jamesngnm.travelbookingsystem.service.HotelService;
 import jamesngnm.travelbookingsystem.service.impl.FlightServiceImpl;
@@ -26,7 +23,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/hotels", "/hotels/create", "/hotels/search", "/hotels/{flightId}"})
+@WebServlet(urlPatterns = {"/hotels", "/hotels/create", "/hotels/search", "/hotel/detail/*"})
 public class HotelServiceServlet extends HttpServlet {
     private HotelService hotelService;
     private Gson gson;
@@ -41,11 +38,6 @@ public class HotelServiceServlet extends HttpServlet {
 
     @Override
     protected void doPost(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) throws ServletException, IOException {
-        // Add CORS headers
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
         String path = request.getServletPath();
         if ("/hotels/search".equals(path)) {
             try {
@@ -63,7 +55,28 @@ public class HotelServiceServlet extends HttpServlet {
                 response.getWriter().write(gson.toJson(new Response<>(e)));
             }
         }
+        else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+    }
 
+    @Override
+    protected void doGet(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) throws ServletException, IOException {
+        String path = request.getServletPath();
+        if (path.startsWith("/hotel/detail")) {
+            try {
+                Long hotelId = Long.parseLong(request.getPathInfo().substring(1));
+
+                HotelDetailResponse hotelDetailResponse = hotelService.getHotelDetail(hotelId);
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.setContentType("application/json");
+                response.getWriter().write(gson.toJson(new Response<>(hotelDetailResponse)));
+            }
+            catch (Exception e) {
+                response.setContentType("application/json");
+                response.getWriter().write(gson.toJson(new Response<>(e)));
+            }
+        }
         else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -85,4 +98,5 @@ public class HotelServiceServlet extends HttpServlet {
 }
 
 // TODO: search room by hotelId, roomId, roomType, roomPrice, roomCapacity
-//
+
+// TODO: make sure if access to not exisiting link, must throw exception created by our own

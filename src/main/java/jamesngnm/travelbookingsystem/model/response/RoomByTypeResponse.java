@@ -1,21 +1,15 @@
 package jamesngnm.travelbookingsystem.model.response;
 
+import jamesngnm.travelbookingsystem.model.enums.RoomType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchHotelResponse {
-    private Long id;
-
-    private String location;
-
-    private String name;
-
+public class RoomByTypeResponse {
+    private RoomType type;
     private int availableRooms;
+    private double price;
 }
-

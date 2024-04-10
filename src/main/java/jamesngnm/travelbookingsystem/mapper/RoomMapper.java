@@ -3,11 +3,13 @@ package jamesngnm.travelbookingsystem.mapper;
 import jamesngnm.travelbookingsystem.entity.RoomEntity;
 import jamesngnm.travelbookingsystem.model.enums.RoomType;
 import jamesngnm.travelbookingsystem.model.response.BookedDateResponse;
+import jamesngnm.travelbookingsystem.model.response.RoomByTypeResponse;
 import jamesngnm.travelbookingsystem.model.response.SearchRoomResponse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @NoArgsConstructor
@@ -24,5 +26,24 @@ public class RoomMapper {
         List<BookedDateResponse> list = bookedDateMapper.toResponses(r.getBookedDates());
 
         return new SearchRoomResponse(id, name, type, price, available, hotelId, location, list);
+    }
+
+    public List<RoomByTypeResponse> toRoomByTypeResponse(List<RoomEntity> roomEntityList) {
+        List<RoomByTypeResponse> list = new ArrayList<>();
+        HashMap<RoomType, RoomByTypeResponse> map = new HashMap<>();
+        for (RoomEntity r : roomEntityList) {
+            RoomType type = r.getType();
+            double price = r.getPrice();
+            if (map.containsKey(type)) {
+                RoomByTypeResponse roomByTypeResponse = map.get(type);
+                roomByTypeResponse.setAvailableRooms(roomByTypeResponse.getAvailableRooms() + 1);
+                roomByTypeResponse.setPrice(price);
+            } else {
+                RoomByTypeResponse roomByTypeResponse = new RoomByTypeResponse(type, 1, price);
+                map.put(type, roomByTypeResponse);
+                list.add(roomByTypeResponse);
+            }
+        }
+        return list;
     }
 }

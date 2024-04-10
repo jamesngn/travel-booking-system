@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface HotelDAO {
     List<HotelEntity> searchHotel(SearchHotelRequest searchHotelRequest);
+
+    HotelEntity getHotelDetail(Long hotelId);
 }
