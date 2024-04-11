@@ -4,11 +4,15 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import jamesngnm.travelbookingsystem.dao.HotelDAO;
+import jamesngnm.travelbookingsystem.entity.BookedDate;
 import jamesngnm.travelbookingsystem.entity.HotelEntity;
 import jamesngnm.travelbookingsystem.entity.RoomEntity;
+import jamesngnm.travelbookingsystem.model.request.GetHotelDetailsRequest;
 import jamesngnm.travelbookingsystem.model.request.SearchHotelRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HotelDAOImpl implements HotelDAO {

@@ -6,16 +6,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jamesngnm.travelbookingsystem.adapter.LocalDateAdapter;
 import jamesngnm.travelbookingsystem.adapter.LocalDateTimeAdapter;
-import jamesngnm.travelbookingsystem.dto.HotelBookingDTO;
-import jamesngnm.travelbookingsystem.entity.HotelBookingEntity;
 import jamesngnm.travelbookingsystem.model.request.CreateHotelBookingRequest;
+import jamesngnm.travelbookingsystem.model.request.RoomByTypeRequest;
 import jamesngnm.travelbookingsystem.model.response.HotelBookingResponse;
 import jamesngnm.travelbookingsystem.model.response.Response;
-import jamesngnm.travelbookingsystem.service.BookingService;
 import jamesngnm.travelbookingsystem.service.HotelBookingService;
-import jamesngnm.travelbookingsystem.service.impl.FlightServiceImpl;
 import jamesngnm.travelbookingsystem.service.impl.HotelBookingServiceImpl;
 import org.jetbrains.annotations.NotNull;
 
@@ -98,15 +94,17 @@ public class BookingServiceServlet extends HttpServlet {
         createHotelBookingRequest.setCheckOutDate(LocalDateTime.parse(jsonObject.get("checkOutDate").getAsString()));
 
         JsonArray roomsArray = jsonObject.getAsJsonArray("rooms");
-        List<Long> roomIds = new ArrayList<>();
+        List<RoomByTypeRequest> roomRequests = new ArrayList<>();
         for (JsonElement roomElement : roomsArray) {
-            roomIds.add(roomElement.getAsLong());
+            JsonObject roomObject = roomElement.getAsJsonObject();
+            String type = roomObject.get("type").getAsString();
+            int quantity = roomObject.get("quantity").getAsInt();
+            roomRequests.add(new RoomByTypeRequest(type, quantity));
         }
-        createHotelBookingRequest.setRoomIds(roomIds);
+        createHotelBookingRequest.setRoomByTypeRequests(roomRequests);
 
         return createHotelBookingRequest;
     }
-
 }
 
 //TODO => flight booking: create flight booking, get flight booking details,

@@ -56,36 +56,6 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public List<RoomEntity> searchAvailableRooms(LocalDateTime checkInDate, LocalDateTime checkOutDate) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            String queryString = "SELECT r FROM RoomEntity r " +
-                                "LEFT JOIN FETCH r.hotel h " +
-                                "WHERE r.id NOT IN (" +
-                                "    SELECT bd.room.id FROM BookedDate bd " +
-                                "    WHERE bd.checkInDate < :checkOutDate AND bd.checkOutDate > :checkInDate" +
-                                ")";
-
-            TypedQuery<RoomEntity> query = em.createQuery(queryString, RoomEntity.class);
-            query.setParameter("checkInDate", checkInDate);
-            query.setParameter("checkOutDate", checkOutDate);
-
-            List<RoomEntity> availableRooms = query.getResultList();
-
-            // Detach the hotel entity from each room to avoid EAGER loading issues
-            availableRooms.forEach(room -> {
-                if (room.getBookedDates() != null) {
-                    room.getBookedDates().forEach(bookedDate -> bookedDate.setRoom(null));
-                }
-            });
-
-            return availableRooms;
-        } finally {
-            em.close();
-        }
-    }
-
-    @Override
     public List<RoomEntity> searchAvailableRooms(SearchAvailableRoomsRequest searchAvailableRoomsRequest) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -95,6 +65,11 @@ public class RoomDAOImpl implements RoomDAO {
             roomEntityRoot.fetch("hotel", JoinType.LEFT);
 
             List<Predicate> predicates = new ArrayList<>();
+
+            if (searchAvailableRoomsRequest.getHotelId() != null) {
+                Predicate hotelIdPredicate = cb.equal(roomEntityRoot.get("hotel").get("id"), searchAvailableRoomsRequest.getHotelId());
+                predicates.add(hotelIdPredicate);
+            }
 
             if (searchAvailableRoomsRequest.getLocation() != null) {
                 Predicate locationPredicate = cb.equal(roomEntityRoot.get("hotel").get("location"), searchAvailableRoomsRequest.getLocation());
@@ -133,6 +108,15 @@ public class RoomDAOImpl implements RoomDAO {
 
             TypedQuery<RoomEntity> query = em.createQuery(cr);
             List<RoomEntity> availableRooms = query.getResultList();
+
+            if (searchAvailableRoomsRequest.getQuantity() > 0) {
+                try {
+                    availableRooms = availableRooms.subList(0, searchAvailableRoomsRequest.getQuantity());
+                } catch (IndexOutOfBoundsException e) {
+                    throw new IllegalArgumentException("Not enough rooms available");
+                }
+
+            }
 
             return availableRooms;
         } finally {

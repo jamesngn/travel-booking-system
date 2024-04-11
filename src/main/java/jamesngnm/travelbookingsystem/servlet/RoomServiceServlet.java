@@ -55,6 +55,11 @@ public class RoomServiceServlet extends HttpServlet {
         // Extract search room request
         SearchAvailableRoomsRequest searchAvailableRoomsRequest = new SearchAvailableRoomsRequest();
 
+        String hotelId = request.getParameter("hotelId");
+        if (hotelId != null && !hotelId.isEmpty()) {
+            searchAvailableRoomsRequest.setHotelId(Long.parseLong(hotelId));
+        }
+
         String checkInDate = request.getParameter("checkInDate");
         if (checkInDate != null && !checkInDate.isEmpty()) {
             searchAvailableRoomsRequest.setCheckInDate(LocalDateTime.parse(checkInDate));
@@ -87,6 +92,11 @@ public class RoomServiceServlet extends HttpServlet {
         String maxPrice = request.getParameter("maxPrice");
         if (maxPrice != null && !maxPrice.isEmpty()) {
             searchAvailableRoomsRequest.setMaxPrice(Double.parseDouble(maxPrice));
+        }
+
+        String quantity = request.getParameter("quantity");
+        if (quantity != null && !quantity.isEmpty()) {
+            searchAvailableRoomsRequest.setQuantity(Integer.parseInt(quantity));
         }
 
         String type = request.getParameter("type");

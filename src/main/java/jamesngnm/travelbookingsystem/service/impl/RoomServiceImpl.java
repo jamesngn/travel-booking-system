@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RoomServiceImpl implements RoomService {
-    private RoomDAO roomDAO;
-    private RoomMapper roomMapper;
+    private final RoomDAO roomDAO;
+    private final RoomMapper roomMapper;
     public RoomServiceImpl() {
         this.roomDAO = new RoomDAOImpl();
         this.roomMapper = new RoomMapper();
@@ -71,26 +71,10 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<SearchRoomResponse> getAvailableRooms(String checkInDate, String checkOutDate) {
-        if (checkInDate == null) {
-            throw new IllegalArgumentException("Check-in date is required");
-        }
-
-        if (checkOutDate == null) {
-            throw new IllegalArgumentException("Check-out date is required");
-        }
-
-        LocalDateTime checkInDateTime = LocalDateTime.parse(checkInDate);
-        LocalDateTime checkOutDateTime = LocalDateTime.parse(checkOutDate);
-
-        if (checkInDateTime.isAfter(checkOutDateTime)) {
-            throw new IllegalArgumentException("Check-in date must be before check-out date");
-        }
-
-        List<RoomEntity> roomEntityList = roomDAO.searchAvailableRooms(checkInDateTime, checkOutDateTime);
-
-        return roomEntityList.stream()
-                .map(roomMapper::toResponse)
+    public List<Long> getAvailableRoomIds(SearchAvailableRoomsRequest searchAvailableRoomsRequest) {
+        return roomDAO.searchAvailableRooms(searchAvailableRoomsRequest)
+                .stream()
+                .map(RoomEntity::getId)
                 .collect(Collectors.toList());
     }
 }

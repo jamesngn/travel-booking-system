@@ -8,6 +8,5 @@ import jamesngnm.travelbookingsystem.model.response.HotelBookingResponse;
 public interface HotelBookingService {
     HotelBookingResponse bookHotel(CreateHotelBookingRequest request);
     HotelBookingResponse getHotelBookingDetails(Long id);
-
     HotelBookingDTO getHotelBookingDetailsV2(Long id);
 }

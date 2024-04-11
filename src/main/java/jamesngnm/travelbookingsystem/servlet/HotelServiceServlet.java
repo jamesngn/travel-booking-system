@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jamesngnm.travelbookingsystem.adapter.LocalDateTimeAdapter;
 import jamesngnm.travelbookingsystem.model.request.CreateFlightRequest;
+import jamesngnm.travelbookingsystem.model.request.GetHotelDetailsRequest;
 import jamesngnm.travelbookingsystem.model.request.SearchFlightRequest;
 import jamesngnm.travelbookingsystem.model.request.SearchHotelRequest;
 import jamesngnm.travelbookingsystem.model.response.*;
@@ -23,7 +24,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/hotels", "/hotels/create", "/hotels/search", "/hotel/detail/*"})
+@WebServlet(urlPatterns = {"/hotels", "/hotels/create", "/hotels/search", "/hotel/detail"})
 public class HotelServiceServlet extends HttpServlet {
     private HotelService hotelService;
     private Gson gson;
@@ -63,11 +64,11 @@ public class HotelServiceServlet extends HttpServlet {
     @Override
     protected void doGet(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) throws ServletException, IOException {
         String path = request.getServletPath();
-        if (path.startsWith("/hotel/detail")) {
+        if (path.equals("/hotel/detail")) {
             try {
-                Long hotelId = Long.parseLong(request.getPathInfo().substring(1));
+                GetHotelDetailsRequest getHotelDetailsRequest = extractGetHotelDetailsRequest(request);
 
-                HotelDetailResponse hotelDetailResponse = hotelService.getHotelDetail(hotelId);
+                HotelDetailResponse hotelDetailResponse = hotelService.getHotelDetail(getHotelDetailsRequest);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.setContentType("application/json");
                 response.getWriter().write(gson.toJson(new Response<>(hotelDetailResponse)));
@@ -83,18 +84,32 @@ public class HotelServiceServlet extends HttpServlet {
     }
 
     private SearchHotelRequest extractSearchHotelRequest(HttpServletRequest request) throws IOException {
-    StringBuilder sb = new StringBuilder();
-    String line;
+        StringBuilder sb = new StringBuilder();
+        String line;
 
-    try (BufferedReader reader = request.getReader()) {
-        while ((line = reader.readLine()) != null) {
-            sb.append(line);
+        try (BufferedReader reader = request.getReader()) {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
         }
+
+        String jsonString = sb.toString();
+        return gson.fromJson(jsonString, SearchHotelRequest.class);
     }
 
-    String jsonString = sb.toString();
-    return gson.fromJson(jsonString, SearchHotelRequest.class);
-}
+    private GetHotelDetailsRequest extractGetHotelDetailsRequest(HttpServletRequest request) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        String line;
+
+        try (BufferedReader reader = request.getReader()) {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+        }
+
+        String jsonString = sb.toString();
+        return gson.fromJson(jsonString, GetHotelDetailsRequest.class);
+    }
 }
 
 // TODO: search room by hotelId, roomId, roomType, roomPrice, roomCapacity

@@ -12,7 +12,6 @@ public interface RoomDAO {
 
     void creatBookedDate(RoomEntity room, BookedDate bookedDate);
 
-    List<RoomEntity> searchAvailableRooms (LocalDateTime checkInDate, LocalDateTime checkOutDate);
-
     List<RoomEntity> searchAvailableRooms (SearchAvailableRoomsRequest searchAvailableRoomsRequest);
+
 }

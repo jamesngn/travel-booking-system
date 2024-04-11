@@ -14,5 +14,5 @@ public interface RoomService {
 
     List<SearchRoomResponse> getAvailableRooms(SearchAvailableRoomsRequest searchAvailableRoomsRequest);
 
-    List<SearchRoomResponse> getAvailableRooms(String checkInDate, String checkOutDate);
+    List<Long> getAvailableRoomIds(SearchAvailableRoomsRequest searchAvailableRoomsRequest);
 }

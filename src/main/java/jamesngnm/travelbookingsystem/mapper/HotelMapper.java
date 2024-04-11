@@ -28,6 +28,7 @@ public class HotelMapper {
 
         return hotelDetailResponse;
     }
+
 }
 
 // TODO: check logic of returning the rooms (check bookedDate) in getting hotel detail. That means need to change the request to include checkin and check out date

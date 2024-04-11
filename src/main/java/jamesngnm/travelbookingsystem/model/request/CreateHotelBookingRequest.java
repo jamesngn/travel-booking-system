@@ -16,5 +16,5 @@ public class CreateHotelBookingRequest {
     private Long userId;
     private LocalDateTime checkInDate;
     private LocalDateTime checkOutDate;
-    private List<Long> roomIds;
+    private List<RoomByTypeRequest> roomByTypeRequests;
 }
