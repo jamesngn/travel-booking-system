@@ -55,16 +55,7 @@ public class HotelServiceServlet extends HttpServlet {
                 response.setContentType("application/json");
                 response.getWriter().write(gson.toJson(new Response<>(e)));
             }
-        }
-        else {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        }
-    }
-
-    @Override
-    protected void doGet(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) throws ServletException, IOException {
-        String path = request.getServletPath();
-        if (path.equals("/hotel/detail")) {
+        } else if (path.equals("/hotel/detail")) {
             try {
                 GetHotelDetailsRequest getHotelDetailsRequest = extractGetHotelDetailsRequest(request);
 
