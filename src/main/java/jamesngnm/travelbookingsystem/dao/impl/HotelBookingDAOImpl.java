@@ -2,8 +2,6 @@ package jamesngnm.travelbookingsystem.dao.impl;
 
 import jakarta.persistence.*;
 import jamesngnm.travelbookingsystem.dao.HotelBookingDAO;
-import jamesngnm.travelbookingsystem.dto.HotelBookingDTO;
-import jamesngnm.travelbookingsystem.dto.RoomBookingDTO;
 import jamesngnm.travelbookingsystem.entity.HotelBookingEntity;
 import jamesngnm.travelbookingsystem.entity.HotelEntity;
 import jamesngnm.travelbookingsystem.entity.RoomBookingEntity;
@@ -38,7 +36,7 @@ public class HotelBookingDAOImpl implements HotelBookingDAO {
 
             HotelBookingEntity hotelBooking = new HotelBookingEntity();
             hotelBooking.setHotel(hotel);
-            hotelBooking.setBooking(null);
+            hotelBooking.setUser(null);
             hotelBooking.setCheckinDate(request.getCheckInDate());
             hotelBooking.setCheckoutDate(request.getCheckOutDate());
 
@@ -63,7 +61,7 @@ public class HotelBookingDAOImpl implements HotelBookingDAO {
 
             //avoid circular reference
             hbe.getHotel().setRooms(null);
-            hbe.setBooking(null);
+            hbe.setUser(null);
             hbe.getRoomBookings().forEach(roomBooking -> {
                 roomBooking.setHotelBooking(null);
                 roomBooking.getRoom().setHotel(null);
@@ -76,47 +74,5 @@ public class HotelBookingDAOImpl implements HotelBookingDAO {
         } finally {
             em.close();
         }
-    }
-
-    @Override
-    public HotelBookingDTO getHotelBookingByIdV2(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            HotelBookingEntity hbe = em.find(HotelBookingEntity.class, id);
-            if (hbe == null) {
-                throw new IllegalArgumentException("Hotel booking not found");
-            }
-
-
-
-            HotelBookingDTO dto = getHotelBookingDTO(hbe);
-
-
-            return dto;
-        } finally {
-            em.close();
-        }
-    }
-
-    @NotNull
-    private static HotelBookingDTO getHotelBookingDTO(HotelBookingEntity hbe) {
-        HotelBookingDTO dto = new HotelBookingDTO();
-        dto.setId(hbe.getId());
-        dto.setHotelId(hbe.getHotel().getId());
-        dto.setHotelName(hbe.getHotel().getName());
-        dto.setBookingId(hbe.getBooking().getId());
-        dto.setCheckinDate(hbe.getCheckinDate());
-        dto.setCheckoutDate(hbe.getCheckoutDate());
-
-        List<RoomBookingDTO> roomBookingDTOs = new ArrayList<>();
-        for (RoomBookingEntity roomBooking : hbe.getRoomBookings()) {
-            RoomBookingDTO roomBookingDTO = new RoomBookingDTO();
-            roomBookingDTO.setId(roomBooking.getId());
-            roomBookingDTO.setRoomId(roomBooking.getRoom().getId());
-            roomBookingDTO.setRoomName(roomBooking.getRoom().getName());
-            roomBookingDTOs.add(roomBookingDTO);
-        }
-        dto.setRoomBookings(roomBookingDTOs);
-        return dto;
     }
 }

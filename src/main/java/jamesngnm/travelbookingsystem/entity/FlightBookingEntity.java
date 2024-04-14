@@ -30,6 +30,6 @@ public class FlightBookingEntity {
     private List<PassengeEntity> passengers;
 
     @ManyToOne
-    @JoinColumn(name = "booking_id")
-    private BookingEntity booking;
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }

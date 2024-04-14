@@ -3,6 +3,8 @@ package jamesngnm.travelbookingsystem.service.impl;
 import jakarta.persistence.PersistenceException;
 import jamesngnm.travelbookingsystem.dao.impl.UserDAOImpl;
 import jamesngnm.travelbookingsystem.entity.UserEntity;
+import jamesngnm.travelbookingsystem.exception.BadRequestError;
+import jamesngnm.travelbookingsystem.exception.ResponseException;
 import jamesngnm.travelbookingsystem.mapper.UserMapper;
 import jamesngnm.travelbookingsystem.model.request.LoginUserRequest;
 import jamesngnm.travelbookingsystem.model.request.RegisterUserRequest;
@@ -28,7 +30,7 @@ public class UserServiceImpl implements UserService {
             UserEntity userEntity = userDAOImpl.createUser(registerUserRequest);
             return userMapper.mapUserEntityToRegisterUserResponse(userEntity);
         } catch (PersistenceException e) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new ResponseException(BadRequestError.USER_ALREADY_EXISTS);
         }
     }
 
@@ -36,11 +38,11 @@ public class UserServiceImpl implements UserService {
     public LoginUserResponse loginUser(LoginUserRequest loginUserRequest) {
         UserEntity userEntity = userDAOImpl.getUserByEmail(loginUserRequest.getEmail());
         if (userEntity == null) {
-            throw new IllegalArgumentException("User not found");
+            throw new ResponseException(BadRequestError.USER_NOT_FOUND);
         }
 
         if (!userEntity.getPassword().equals(loginUserRequest.getPassword())) {
-            throw new IllegalArgumentException("Invalid password");
+            throw new ResponseException(BadRequestError.USER_PASSWORD_INVALID);
         }
 
         return userMapper.mapUserEntityToLoginUserResponse(userEntity);
@@ -62,7 +64,7 @@ public class UserServiceImpl implements UserService {
         try {
             new InternetAddress(registerUserRequest.getEmail()).validate();
         } catch (AddressException e) {
-            throw new IllegalArgumentException("Invalid email address");
+            throw new ResponseException(BadRequestError.USER_EMAIL_INVALID);
         }
     }
 }

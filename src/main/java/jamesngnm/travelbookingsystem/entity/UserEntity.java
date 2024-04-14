@@ -22,5 +22,8 @@ public class UserEntity {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<BookingEntity> bookings;
+    private List<FlightBookingEntity> bookings;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<HotelBookingEntity> hotelBookings;
 }

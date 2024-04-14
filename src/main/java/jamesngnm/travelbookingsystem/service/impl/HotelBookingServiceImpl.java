@@ -2,7 +2,6 @@ package jamesngnm.travelbookingsystem.service.impl;
 
 import jamesngnm.travelbookingsystem.dao.HotelBookingDAO;
 import jamesngnm.travelbookingsystem.dao.impl.HotelBookingDAOImpl;
-import jamesngnm.travelbookingsystem.dto.HotelBookingDTO;
 import jamesngnm.travelbookingsystem.entity.HotelBookingEntity;
 import jamesngnm.travelbookingsystem.mapper.HotelBookingMapper;
 import jamesngnm.travelbookingsystem.model.request.CreateHotelBookingRequest;
@@ -58,16 +57,4 @@ public class HotelBookingServiceImpl implements HotelBookingService {
         HotelBookingEntity hotelBookingEntity = hotelBookingDAO.getHotelBookingById(id);
         return hotelBookingMapper.toHotelBookingResponse(hotelBookingEntity);
     }
-
-
-    @Override
-    public HotelBookingDTO getHotelBookingDetailsV2(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Hotel booking ID not found");
-        }
-
-        HotelBookingDTO dto = hotelBookingDAO.getHotelBookingByIdV2(id);
-        return dto;
-    }
-
 }
