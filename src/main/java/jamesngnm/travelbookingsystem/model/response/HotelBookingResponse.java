@@ -1,13 +1,10 @@
 package jamesngnm.travelbookingsystem.model.response;
 
-import jamesngnm.travelbookingsystem.entity.RoomEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

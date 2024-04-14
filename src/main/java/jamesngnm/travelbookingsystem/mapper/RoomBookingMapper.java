@@ -2,7 +2,6 @@ package jamesngnm.travelbookingsystem.mapper;
 
 import jamesngnm.travelbookingsystem.entity.RoomBookingEntity;
 import jamesngnm.travelbookingsystem.model.response.RoomBookingResponse;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.List;

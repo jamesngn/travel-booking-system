@@ -4,16 +4,12 @@ import jakarta.persistence.*;
 import jakarta.persistence.criteria.*;
 import jamesngnm.travelbookingsystem.dao.HotelBookingDAO;
 import jamesngnm.travelbookingsystem.entity.*;
-import jamesngnm.travelbookingsystem.exception.BadRequestError;
-import jamesngnm.travelbookingsystem.exception.ResponseException;
 import jamesngnm.travelbookingsystem.model.request.CreateHotelBookingRequest;
 import jamesngnm.travelbookingsystem.service.HotelService;
 import jamesngnm.travelbookingsystem.service.UserService;
 import jamesngnm.travelbookingsystem.service.impl.HotelServiceImpl;
 import jamesngnm.travelbookingsystem.service.impl.UserServiceImpl;
-import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
