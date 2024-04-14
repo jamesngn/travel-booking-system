@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HotelBookingResponse {
-    private Long hotelId;
+    private SearchHotelResponse hotel;
     private LocalDateTime checkInDate;
     private LocalDateTime checkOutDate;
     private List<RoomBookingResponse> rooms;

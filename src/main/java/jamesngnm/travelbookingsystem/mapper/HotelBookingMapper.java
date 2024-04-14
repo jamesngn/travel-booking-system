@@ -8,13 +8,15 @@ import java.util.List;
 
 public class HotelBookingMapper {
     private final RoomBookingMapper roomBookingMapper;
+    private final HotelMapper hotelMapper;
     public HotelBookingMapper() {
         this.roomBookingMapper = new RoomBookingMapper();
+        this.hotelMapper = new HotelMapper();
     }
 
     public HotelBookingResponse toHotelBookingResponse(HotelBookingEntity hotelBookingEntity) {
         HotelBookingResponse hotelBookingResponse = new HotelBookingResponse();
-        hotelBookingResponse.setHotelId(hotelBookingEntity.getHotel().getId());
+        hotelBookingResponse.setHotel(hotelMapper.toSearchHotelResponse(hotelBookingEntity.getHotel()));
         hotelBookingResponse.setCheckInDate(hotelBookingEntity.getCheckinDate());
         hotelBookingResponse.setCheckOutDate(hotelBookingEntity.getCheckoutDate());
 
