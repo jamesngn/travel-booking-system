@@ -17,6 +17,7 @@ public class UserMapper {
 
     public LoginUserResponse mapUserEntityToLoginUserResponse(UserEntity userEntity) {
         LoginUserResponse loginUserResponse = new LoginUserResponse();
+        loginUserResponse.setId(userEntity.getId());
         loginUserResponse.setUsername(userEntity.getUsername());
         loginUserResponse.setEmail(userEntity.getEmail());
         return loginUserResponse;
