@@ -14,14 +14,14 @@
         <class>jamesngnm.travelbookingsystem.entity.FlightBookingEntity</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-<!--&lt;!&ndash;            Dev&ndash;&gt;-->
-<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://dpg-cobvl35jm4es73a0qb50-a.singapore-postgres.render.com:5432/travelbookingdb"/>-->
-<!--            <property name="jakarta.persistence.jdbc.user" value="quangnguyen"/>-->
-<!--            <property name="jakarta.persistence.jdbc.password" value="6Mb1Zr58cuN3LinInqnfYsO028SzqS0F"/>-->
-<!--            Local-->
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/travelbookingdb"/>
-            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-            <property name="jakarta.persistence.jdbc.password" value="postgres"/>
+<!--            Dev-->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://dpg-cobvl35jm4es73a0qb50-a.singapore-postgres.render.com:5432/travelbookingdb"/>
+            <property name="jakarta.persistence.jdbc.user" value="quangnguyen"/>
+            <property name="jakarta.persistence.jdbc.password" value="6Mb1Zr58cuN3LinInqnfYsO028SzqS0F"/>
+<!--&lt;!&ndash;            Local&ndash;&gt;-->
+<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/travelbookingdb"/>-->
+<!--            <property name="jakarta.persistence.jdbc.user" value="postgres"/>-->
+<!--            <property name="jakarta.persistence.jdbc.password" value="postgres"/>-->
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show-sql" value="true"/>
         </properties>
