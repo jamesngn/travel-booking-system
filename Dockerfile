@@ -12,9 +12,9 @@ COPY . /app
 RUN mvn package -Dmaven.test.skip
 
 # Stage 2: Create the final image
-FROM tomcat:9.0-jdk11-corretto
+FROM tomcat:10-jdk17
 
-COPY --from=build /app/target/TravelBookingSystem.war /usr/local/tomcat/webapps/TravelBookingSystem.war
+ADD target/TravelBookingSystem.war /usr/local/tomcat/webapps/TravelBookingSystem.war
 
 EXPOSE 8080
 
