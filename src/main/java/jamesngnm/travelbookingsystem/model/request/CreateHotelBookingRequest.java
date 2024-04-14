@@ -11,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateHotelBookingRequest {
-    private Long bookingId;
     private Long hotelId;
     private Long userId;
     private LocalDateTime checkInDate;

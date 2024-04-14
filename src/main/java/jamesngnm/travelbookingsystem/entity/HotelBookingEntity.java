@@ -30,7 +30,6 @@ public class HotelBookingEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotelBooking", fetch = FetchType.EAGER)
     private List<RoomBookingEntity> roomBookings;
 
-
     @Column(name = "check_in_date")
     private LocalDateTime checkinDate;
 

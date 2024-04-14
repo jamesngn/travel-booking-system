@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(urlPatterns = {"/bookings", "/bookings/hotel/create", "/bookings/hotel/*"})
+@WebServlet(urlPatterns = {"/bookings", "/bookings/hotel/create", "/bookings/hotel/id/*", "/bookings/hotel/user/*"})
 public class BookingServiceServlet extends HttpServlet {
     private HotelBookingService hotelBookingService;
     private Gson gson;
@@ -57,10 +57,10 @@ public class BookingServiceServlet extends HttpServlet {
     @Override
     protected void doGet(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) throws ServletException, IOException {
         String path = request.getServletPath();
-        if (path.startsWith("/bookings/hotel")) {
+        if (path.startsWith("/bookings/hotel/id")) {
             try {
                 Long id = Long.parseLong(request.getPathInfo().substring(1));
-                HotelBookingResponse hotelBookingResponse = hotelBookingService.getHotelBookingDetails(id);
+                HotelBookingResponse hotelBookingResponse = hotelBookingService.searchHotelBookingDetailsById(id);
 
 //                HotelBookingDTO hotelBookingResponse = hotelBookingService.getHotelBookingDetailsV2(id);
                 response.setStatus(HttpServletResponse.SC_OK);
@@ -71,7 +71,22 @@ public class BookingServiceServlet extends HttpServlet {
                 response.setContentType("application/json");
                 response.getWriter().write(gson.toJson(new Response<>(e)));
             }
-        } else {
+        } else if (path.startsWith("/bookings/hotel/user")) {
+            try {
+                Long userId = Long.parseLong(request.getPathInfo().substring(1));
+                List<HotelBookingResponse> hotelBookingResponses = hotelBookingService.searchHotelBookingDetailsByUserId(userId);
+
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.setContentType("application/json");
+                response.getWriter().write(gson.toJson(new Response<>(hotelBookingResponses)));
+            }
+            catch (Exception e) {
+                response.setContentType("application/json");
+                response.getWriter().write(gson.toJson(new Response<>(e)));
+            }
+        }
+
+        else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
@@ -87,7 +102,6 @@ public class BookingServiceServlet extends HttpServlet {
 
         JsonObject jsonObject = gson.fromJson(requestBody.toString(), JsonObject.class);
         CreateHotelBookingRequest createHotelBookingRequest = new CreateHotelBookingRequest();
-        createHotelBookingRequest.setBookingId(jsonObject.get("bookingId").getAsLong());
         createHotelBookingRequest.setHotelId(jsonObject.get("hotelId").getAsLong());
         createHotelBookingRequest.setUserId(jsonObject.get("userId").getAsLong());
         createHotelBookingRequest.setCheckInDate(LocalDateTime.parse(jsonObject.get("checkInDate").getAsString()));

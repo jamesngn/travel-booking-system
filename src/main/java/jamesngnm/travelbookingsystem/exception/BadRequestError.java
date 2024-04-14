@@ -18,6 +18,8 @@ public enum BadRequestError implements ResponseError {
     HOTEL_LOCATION_INVALID(111, "Hotel location is required"),
     HOTEL_CHECK_IN_INVALID(112, "Hotel check-in date is required"),
 
+    HOTEL_BOOKING_NOT_FOUND(113, "Hotel booking not found"),
+
     USER_NOT_FOUND(200, "User not found"),
     USER_ALREADY_EXISTS(201, "User already exists"),
     USER_EMAIL_INVALID(202, "User email is invalid"),

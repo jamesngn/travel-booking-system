@@ -1,5 +1,6 @@
 package jamesngnm.travelbookingsystem.service;
 
+import jamesngnm.travelbookingsystem.entity.HotelEntity;
 import jamesngnm.travelbookingsystem.model.request.GetHotelDetailsRequest;
 import jamesngnm.travelbookingsystem.model.request.SearchHotelRequest;
 import jamesngnm.travelbookingsystem.model.response.HotelDetailResponse;
@@ -9,6 +10,6 @@ import java.util.List;
 
 public interface HotelService {
     List<SearchHotelResponse> searchHotel(SearchHotelRequest searchHotelRequest);
-    HotelDetailResponse getHotelDetail(Long hotelId);
+    HotelEntity getHotelEntityById(Long hotelId);
     HotelDetailResponse getHotelDetail(GetHotelDetailsRequest getHotelDetailsRequest);
 }

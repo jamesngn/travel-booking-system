@@ -3,6 +3,8 @@ package jamesngnm.travelbookingsystem.service.impl;
 import jamesngnm.travelbookingsystem.dao.HotelBookingDAO;
 import jamesngnm.travelbookingsystem.dao.impl.HotelBookingDAOImpl;
 import jamesngnm.travelbookingsystem.entity.HotelBookingEntity;
+import jamesngnm.travelbookingsystem.exception.BadRequestError;
+import jamesngnm.travelbookingsystem.exception.ResponseException;
 import jamesngnm.travelbookingsystem.mapper.HotelBookingMapper;
 import jamesngnm.travelbookingsystem.model.request.CreateHotelBookingRequest;
 import jamesngnm.travelbookingsystem.model.request.SearchAvailableRoomsRequest;
@@ -13,6 +15,7 @@ import jamesngnm.travelbookingsystem.service.RoomService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HotelBookingServiceImpl implements HotelBookingService {
     private final HotelBookingDAO hotelBookingDAO;
@@ -29,9 +32,6 @@ public class HotelBookingServiceImpl implements HotelBookingService {
     }
     @Override
     public HotelBookingResponse bookHotel (CreateHotelBookingRequest request) {
-        // TODO: check if user currently have unfinished booking, use that for hotelBookingEntity, otherwise create new.
-
-
         HotelBookingEntity hotelBookingEntity = hotelBookingDAO.createHotelBooking(request);
 
         List<Long> roomIdsToBook = new ArrayList<>();
@@ -49,12 +49,22 @@ public class HotelBookingServiceImpl implements HotelBookingService {
     }
 
     @Override
-    public HotelBookingResponse getHotelBookingDetails(Long id) {
+    public HotelBookingResponse searchHotelBookingDetailsById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Hotel booking ID not found");
         }
 
         HotelBookingEntity hotelBookingEntity = hotelBookingDAO.getHotelBookingById(id);
         return hotelBookingMapper.toHotelBookingResponse(hotelBookingEntity);
+    }
+
+    @Override
+    public List<HotelBookingResponse> searchHotelBookingDetailsByUserId(Long userId) {
+        if (userId == null) {
+            throw new ResponseException(BadRequestError.USER_NOT_FOUND);
+        }
+
+        List<HotelBookingEntity> hotelBookingEntities = hotelBookingDAO.getHotelBookingByUserId(userId);
+        return hotelBookingEntities.stream().map(hotelBookingMapper::toHotelBookingResponse).collect(Collectors.toList());
     }
 }

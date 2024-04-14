@@ -5,10 +5,14 @@ import jamesngnm.travelbookingsystem.entity.RoomBookingEntity;
 import jamesngnm.travelbookingsystem.entity.RoomEntity;
 import jamesngnm.travelbookingsystem.model.request.CreateHotelBookingRequest;
 import jamesngnm.travelbookingsystem.model.response.HotelBookingResponse;
+import jamesngnm.travelbookingsystem.model.response.RoomBookingResponse;
+
+import java.util.List;
 
 public class HotelBookingMapper {
+    private final RoomBookingMapper roomBookingMapper;
     public HotelBookingMapper() {
-
+        this.roomBookingMapper = new RoomBookingMapper();
     }
 
     public HotelBookingResponse toHotelBookingResponse(HotelBookingEntity hotelBookingEntity) {
@@ -20,11 +24,11 @@ public class HotelBookingMapper {
         if (hotelBookingEntity.getRoomBookings() == null || hotelBookingEntity.getRoomBookings().isEmpty()) {
             return hotelBookingResponse;
         }
-        hotelBookingEntity.getRoomBookings().forEach(roomBookingEntity -> {
-            RoomEntity room = roomBookingEntity.getRoom();
-            room.setHotel(null);
-            hotelBookingResponse.addRoom(room);
-        });
+
+        List<RoomBookingResponse> roomBookingResponses = roomBookingMapper.toRoomBookingResponses(hotelBookingEntity.getRoomBookings());
+        hotelBookingResponse.setRooms(roomBookingResponses);
+
+
         return hotelBookingResponse;
     }
 

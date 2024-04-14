@@ -45,4 +45,14 @@ public class UserDAOImpl implements UserDAO {
             em.close();
         }
     }
+
+    @Override
+    public UserEntity getUserById(Long id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.find(UserEntity.class, id);
+        } finally {
+            em.close();
+        }
+    }
 }

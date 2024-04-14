@@ -41,9 +41,8 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public HotelDetailResponse getHotelDetail(Long hotelId) {
-        HotelEntity hotel = hotelDAO.getHotelDetail(hotelId);
-        return hotelMapper.toHotelDetailResponse(hotel);
+    public HotelEntity getHotelEntityById(Long hotelId) {
+        return hotelDAO.getHotelDetail(hotelId);
     }
 
     @Override

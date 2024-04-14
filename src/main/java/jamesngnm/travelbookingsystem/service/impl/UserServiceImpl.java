@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.mapUserEntityToLoginUserResponse(userEntity);
     }
 
+    @Override
+    public UserEntity getUserById(Long id) {
+        return userDAOImpl.getUserById(id);
+    }
+
     private void validateRegisterUserRequest(RegisterUserRequest registerUserRequest) {
         if (registerUserRequest.getUsername() == null || registerUserRequest.getUsername().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be empty");

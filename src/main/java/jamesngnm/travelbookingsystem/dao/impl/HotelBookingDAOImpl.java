@@ -1,21 +1,32 @@
 package jamesngnm.travelbookingsystem.dao.impl;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.*;
 import jamesngnm.travelbookingsystem.dao.HotelBookingDAO;
-import jamesngnm.travelbookingsystem.entity.HotelBookingEntity;
-import jamesngnm.travelbookingsystem.entity.HotelEntity;
-import jamesngnm.travelbookingsystem.entity.RoomBookingEntity;
+import jamesngnm.travelbookingsystem.entity.*;
+import jamesngnm.travelbookingsystem.exception.BadRequestError;
+import jamesngnm.travelbookingsystem.exception.ResponseException;
 import jamesngnm.travelbookingsystem.model.request.CreateHotelBookingRequest;
+import jamesngnm.travelbookingsystem.service.HotelService;
+import jamesngnm.travelbookingsystem.service.UserService;
+import jamesngnm.travelbookingsystem.service.impl.HotelServiceImpl;
+import jamesngnm.travelbookingsystem.service.impl.UserServiceImpl;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HotelBookingDAOImpl implements HotelBookingDAO {
     private final EntityManagerFactory emf;
+    private final UserService userService;
+    private final HotelService hotelService;
 
     public HotelBookingDAOImpl() {
+
         this.emf = Persistence.createEntityManagerFactory("travel-booking-system");
+        this.userService = new UserServiceImpl();
+        this.hotelService = new HotelServiceImpl();
     }
     @Override
     public HotelBookingEntity createHotelBooking(CreateHotelBookingRequest request) {
@@ -23,20 +34,12 @@ public class HotelBookingDAOImpl implements HotelBookingDAO {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            HotelEntity hotel = em.find(HotelEntity.class, request.getHotelId());
-            if (hotel == null) {
-                throw new IllegalArgumentException("Hotel not found");
-            }
-
-            //TODO: Add booking entity
-//            BookingEntity booking = em.find(BookingEntity.class, request.getBookingId());
-//            if (booking == null) {
-//                throw new IllegalArgumentException("Booking not found");
-//            }
+            UserEntity user = userService.getUserById(request.getUserId());
+            HotelEntity hotel = hotelService.getHotelEntityById(request.getHotelId());
 
             HotelBookingEntity hotelBooking = new HotelBookingEntity();
             hotelBooking.setHotel(hotel);
-            hotelBooking.setUser(null);
+            hotelBooking.setUser(user);
             hotelBooking.setCheckinDate(request.getCheckInDate());
             hotelBooking.setCheckoutDate(request.getCheckOutDate());
 
@@ -71,6 +74,31 @@ public class HotelBookingDAOImpl implements HotelBookingDAO {
             });
 
             return hbe;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<HotelBookingEntity> getHotelBookingByUserId(Long userId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<HotelBookingEntity> cr = cb.createQuery(HotelBookingEntity.class);
+            Root<HotelBookingEntity> hotelBookingEntityRoot = cr.from(HotelBookingEntity.class);
+            hotelBookingEntityRoot.fetch("user", JoinType.LEFT);
+            hotelBookingEntityRoot.fetch("hotel", JoinType.LEFT);
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (userId != null) {
+                Predicate userIdPredicate = cb.equal(hotelBookingEntityRoot.get("user").get("id"), userId);
+                predicates.add(userIdPredicate);
+            }
+
+            TypedQuery<HotelBookingEntity> query = em.createQuery(cr.select(hotelBookingEntityRoot).where(predicates.toArray(new Predicate[0])));
+            List<HotelBookingEntity> hotelBookingEntities = query.getResultList();
+
+            return hotelBookingEntities;
         } finally {
             em.close();
         }
