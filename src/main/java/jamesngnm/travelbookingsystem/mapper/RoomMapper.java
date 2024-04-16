@@ -1,7 +1,9 @@
 package jamesngnm.travelbookingsystem.mapper;
 
+import jamesngnm.travelbookingsystem.entity.HotelEntity;
 import jamesngnm.travelbookingsystem.entity.RoomEntity;
 import jamesngnm.travelbookingsystem.model.enums.RoomType;
+import jamesngnm.travelbookingsystem.model.request.CreateRoomRequest;
 import jamesngnm.travelbookingsystem.model.response.BookedDateResponse;
 import jamesngnm.travelbookingsystem.model.response.RoomByTypeResponse;
 import jamesngnm.travelbookingsystem.model.response.SearchRoomResponse;
@@ -45,5 +47,16 @@ public class RoomMapper {
             }
         }
         return list;
+    }
+
+    public RoomEntity toRoomEntity(CreateRoomRequest roomRequest, HotelEntity hotel) {
+        RoomEntity room = new RoomEntity();
+        room.setHotel(hotel);
+        room.setType(roomRequest.getRoomType());
+        room.setPrice(roomRequest.getPrice());
+        room.setName(roomRequest.getName());
+        room.setBookedDates(new ArrayList<>());
+
+        return room;
     }
 }
