@@ -8,14 +8,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jamesngnm.travelbookingsystem.adapter.LocalDateTimeAdapter;
-import jamesngnm.travelbookingsystem.model.request.CreateFlightRequest;
 import jamesngnm.travelbookingsystem.model.request.GetHotelDetailsRequest;
-import jamesngnm.travelbookingsystem.model.request.SearchFlightRequest;
 import jamesngnm.travelbookingsystem.model.request.SearchHotelRequest;
 import jamesngnm.travelbookingsystem.model.response.*;
-import jamesngnm.travelbookingsystem.service.FlightService;
 import jamesngnm.travelbookingsystem.service.HotelService;
-import jamesngnm.travelbookingsystem.service.impl.FlightServiceImpl;
 import jamesngnm.travelbookingsystem.service.impl.HotelServiceImpl;
 import org.jetbrains.annotations.NotNull;
 
