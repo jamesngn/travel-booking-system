@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.persistence.criteria.*;
 import jamesngnm.travelbookingsystem.dao.HotelBookingDAO;
 import jamesngnm.travelbookingsystem.entity.*;
+import jamesngnm.travelbookingsystem.exception.BadRequestError;
+import jamesngnm.travelbookingsystem.exception.ResponseException;
 import jamesngnm.travelbookingsystem.model.request.CreateHotelBookingRequest;
 import jamesngnm.travelbookingsystem.service.HotelService;
 import jamesngnm.travelbookingsystem.service.UserService;
@@ -17,6 +19,12 @@ public class HotelBookingDAOImpl implements HotelBookingDAO {
     private final EntityManagerFactory emf;
     private final UserService userService;
     private final HotelService hotelService;
+
+    public HotelBookingDAOImpl(String persistenceUnitName) {
+        this.emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+        this.userService = new UserServiceImpl();
+        this.hotelService = new HotelServiceImpl();
+    }
 
     public HotelBookingDAOImpl() {
 
@@ -55,7 +63,7 @@ public class HotelBookingDAOImpl implements HotelBookingDAO {
         try {
             HotelBookingEntity hbe = em.find(HotelBookingEntity.class, id);
             if (hbe == null) {
-                throw new IllegalArgumentException("Hotel booking not found");
+                throw new ResponseException(BadRequestError.HOTEL_BOOKING_NOT_FOUND);
             }
 
             //avoid circular reference
