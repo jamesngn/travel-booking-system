@@ -1,16 +1,20 @@
 package jamesngnm.travelbookingsystem.mapper;
 
 import jamesngnm.travelbookingsystem.entity.HotelEntity;
+import jamesngnm.travelbookingsystem.entity.RoomEntity;
+import jamesngnm.travelbookingsystem.model.request.CreateHotelRequest;
 import jamesngnm.travelbookingsystem.model.response.HotelDetailResponse;
 import jamesngnm.travelbookingsystem.model.response.SearchHotelResponse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class HotelMapper {
     private final RoomMapper roomMapper = new RoomMapper();
+
     public SearchHotelResponse toSearchHotelResponse(HotelEntity hotel) {
         SearchHotelResponse searchHotelResponse = new SearchHotelResponse();
         searchHotelResponse.setId(hotel.getId());
@@ -27,6 +31,20 @@ public class HotelMapper {
         hotelDetailResponse.setRooms(roomMapper.toRoomByTypeResponse(hotel.getRooms()));
 
         return hotelDetailResponse;
+    }
+
+    public HotelEntity toHotelEntity(CreateHotelRequest hotelRequest) {
+        HotelEntity hotel = new HotelEntity();
+        hotel.setLocation(hotelRequest.getLocation());
+        hotel.setName(hotelRequest.getName());
+        hotel.setAvailableRooms(hotelRequest.getRooms().size());
+        List<RoomEntity> roomEntities = hotelRequest.getRooms().stream()
+                .map(roomRequest -> roomMapper.toRoomEntity(roomRequest, hotel))
+                .toList();
+
+        hotel.setRooms(roomEntities);
+
+        return hotel;
     }
 
 }
