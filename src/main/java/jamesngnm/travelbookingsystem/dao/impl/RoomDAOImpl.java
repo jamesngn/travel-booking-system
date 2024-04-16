@@ -8,6 +8,8 @@ import jakarta.persistence.criteria.*;
 import jamesngnm.travelbookingsystem.dao.RoomDAO;
 import jamesngnm.travelbookingsystem.entity.BookedDate;
 import jamesngnm.travelbookingsystem.entity.RoomEntity;
+import jamesngnm.travelbookingsystem.exception.BadRequestError;
+import jamesngnm.travelbookingsystem.exception.ResponseException;
 import jamesngnm.travelbookingsystem.model.enums.RoomType;
 import jamesngnm.travelbookingsystem.model.request.SearchAvailableRoomsRequest;
 
@@ -16,18 +18,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomDAOImpl implements RoomDAO {
-    private EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
+
+    public RoomDAOImpl(String persistenceUnitName) {
+        this.emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+    }
 
     public RoomDAOImpl() {
         this.emf = Persistence.createEntityManagerFactory("travel-booking-system");
     }
+
+    @Override
+    public void createRoom(RoomEntity room) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(room);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
     @Override
     public RoomEntity searchRoomById(Long roomId) {
         EntityManager em = emf.createEntityManager();
         try {
             RoomEntity room = em.find(RoomEntity.class, roomId);
             if (room == null) {
-                throw new IllegalArgumentException("Room not found");
+                throw new ResponseException(BadRequestError.ROOM_NOT_FOUND);
             }
 
             //avoid circular reference
@@ -113,7 +132,7 @@ public class RoomDAOImpl implements RoomDAO {
                 try {
                     availableRooms = availableRooms.subList(0, searchAvailableRoomsRequest.getQuantity());
                 } catch (IndexOutOfBoundsException e) {
-                    throw new IllegalArgumentException("Not enough rooms available");
+                    throw new ResponseException(BadRequestError.ROOM_NOT_AVAILABLE);
                 }
 
             }
