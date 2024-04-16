@@ -12,6 +12,9 @@ import jamesngnm.travelbookingsystem.entity.RoomEntity;
 public class RoomBookingDAOImpl implements RoomBookingDAO {
     private final EntityManagerFactory emf;
 
+    public RoomBookingDAOImpl(String persistenceUnitName) {
+        this.emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+    }
     public RoomBookingDAOImpl() {
         this.emf = Persistence.createEntityManagerFactory("travel-booking-system");
     }
