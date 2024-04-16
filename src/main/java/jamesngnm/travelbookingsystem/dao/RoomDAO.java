@@ -8,10 +8,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RoomDAO {
+    void createRoom(RoomEntity room);
     RoomEntity searchRoomById(Long roomId);
-
     void creatBookedDate(RoomEntity room, BookedDate bookedDate);
-
     List<RoomEntity> searchAvailableRooms (SearchAvailableRoomsRequest searchAvailableRoomsRequest);
 
 }
