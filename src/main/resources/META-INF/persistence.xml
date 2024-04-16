@@ -7,7 +7,6 @@
         <class>jamesngnm.travelbookingsystem.entity.UserEntity</class>
         <class>jamesngnm.travelbookingsystem.entity.RoomEntity</class>
         <class>jamesngnm.travelbookingsystem.entity.HotelEntity</class>
-        <class>jamesngnm.travelbookingsystem.entity.BookingEntity</class>
         <class>jamesngnm.travelbookingsystem.entity.BookedDate</class>
         <class>jamesngnm.travelbookingsystem.entity.HotelBookingEntity</class>
         <class>jamesngnm.travelbookingsystem.entity.RoomBookingEntity</class>
@@ -22,6 +21,25 @@
 <!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/travelbookingdb"/>-->
 <!--            <property name="jakarta.persistence.jdbc.user" value="postgres"/>-->
 <!--            <property name="jakarta.persistence.jdbc.password" value="postgres"/>-->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show-sql" value="true"/>
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="travel-booking-system-test">
+        <class>jamesngnm.travelbookingsystem.entity.FlightEntity</class>
+        <class>jamesngnm.travelbookingsystem.entity.UserEntity</class>
+        <class>jamesngnm.travelbookingsystem.entity.RoomEntity</class>
+        <class>jamesngnm.travelbookingsystem.entity.HotelEntity</class>
+        <class>jamesngnm.travelbookingsystem.entity.BookedDate</class>
+        <class>jamesngnm.travelbookingsystem.entity.HotelBookingEntity</class>
+        <class>jamesngnm.travelbookingsystem.entity.RoomBookingEntity</class>
+        <class>jamesngnm.travelbookingsystem.entity.FlightBookingEntity</class>
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <!--            Local-->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/travelbookingdbtest"/>
+            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.password" value="postgres"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show-sql" value="true"/>
         </properties>
