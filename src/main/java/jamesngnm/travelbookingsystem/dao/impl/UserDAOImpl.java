@@ -8,8 +8,11 @@ import jamesngnm.travelbookingsystem.entity.UserEntity;
 import jamesngnm.travelbookingsystem.model.request.RegisterUserRequest;
 
 public class UserDAOImpl implements UserDAO {
-    private EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
+    public UserDAOImpl(String persistenceUnitName) {
+        this.emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+    }
     public UserDAOImpl() {
         this.emf = Persistence.createEntityManagerFactory("travel-booking-system");
     }
