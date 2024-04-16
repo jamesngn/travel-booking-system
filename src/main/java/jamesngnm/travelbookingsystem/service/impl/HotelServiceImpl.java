@@ -7,6 +7,7 @@ import jamesngnm.travelbookingsystem.dao.impl.RoomDAOImpl;
 import jamesngnm.travelbookingsystem.entity.HotelEntity;
 import jamesngnm.travelbookingsystem.entity.RoomEntity;
 import jamesngnm.travelbookingsystem.mapper.HotelMapper;
+import jamesngnm.travelbookingsystem.model.request.CreateHotelRequest;
 import jamesngnm.travelbookingsystem.model.request.GetHotelDetailsRequest;
 import jamesngnm.travelbookingsystem.model.request.SearchAvailableRoomsRequest;
 import jamesngnm.travelbookingsystem.model.request.SearchHotelRequest;
@@ -23,13 +24,24 @@ import java.util.stream.Collectors;
 public class HotelServiceImpl implements HotelService {
     private final HotelDAO hotelDAO;
     private final RoomDAO roomDAO;
-
     private final HotelMapper hotelMapper;
+
+    public HotelServiceImpl(HotelDAO hotelDAO, RoomDAO roomDAO) {
+        this.hotelDAO = hotelDAO;
+        this.roomDAO = roomDAO;
+        this.hotelMapper = new HotelMapper();
+    }
 
     public HotelServiceImpl() {
         this.hotelDAO = new HotelDAOImpl();
         this.hotelMapper = new HotelMapper();
         this.roomDAO =  new RoomDAOImpl();
+    }
+
+    @Override
+    public void createHotel(CreateHotelRequest createHotelRequest) {
+        HotelEntity hotel = hotelMapper.toHotelEntity(createHotelRequest);
+        hotelDAO.createHotel(hotel);
     }
 
     @Override
@@ -51,7 +63,6 @@ public class HotelServiceImpl implements HotelService {
 
 
         SearchAvailableRoomsRequest request = new SearchAvailableRoomsRequest(getHotelDetailsRequest.getHotelId(), getHotelDetailsRequest.getCheckInDate(), getHotelDetailsRequest.getCheckOutDate());
-
 
         List<RoomEntity> availableRooms = roomDAO.searchAvailableRooms(request);
         hotel.setRooms(availableRooms);
